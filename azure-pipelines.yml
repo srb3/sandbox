@@ -14,3 +14,13 @@ steps:
   inputs:
     workingDirectory: '$(System.DefaultWorkingDirectory)/setup/'
     filePath: '$(System.DefaultWorkingDirectory)/setup/pipeline_setup.sh'
+    env:
+      ARM_CLIENT_ID: $(CLIENT_ID)
+      ARM_CLIENT_SECRET: $(CLIENT_SECRET)
+      ARM_SUBSCRIPTION_ID: $(SUBSCRIPTION_ID)
+      ARM_TENANT_ID: $(TENANT_ID)
+      RESOURCE_GROUP_NAME: $(RESOURCE_GROUP_NAME)
+      RESOURCE_GROUP_LOCATION: $(LOCATION)
+      DATA_COLLECTOR_TOKEN: $(DC_TOKEN)
+      CHEF_AUTOMATE_LICENSE: $(CHEF_AUTOMATE_LICENSE)
+      CHEF_AUTOMATE_ADMIN_PASSWORD: $(CHEF_AUTOMATE_ADMIN_PASSWORD)

@@ -1,10 +1,5 @@
 #!/bin/bash
 
-export ARM_CLIENT_ID="$(CLIENT_ID)"
-export ARM_CLIENT_SECRET="$(CLIENT_SECRET)"
-export ARM_SUBSCRIPTION_ID="$(SUBSCRIPTION_ID)"
-export ARM_TENANT_ID="$(TENANT_ID)"
-
 echo "CLIENT_ID: $ARM_CLIENT_ID"
 echo "CLIENT_SECRET: $ARM_CLIENT_SECRET"
 echo "SUBSCRIPTION_ID: $ARM_SUBSCRIPTION_ID"
@@ -31,8 +26,8 @@ user_name = "$USERNAME"
 user_public_key = "$SSH_PUBLIC_KEY_PATH"
 user_private_key = "$SSH_PRIVATE_KEY_PATH"
 
-resource_group_name = "$(RESOURCE_GROUP_NAME)"
-resource_group_location = "$(LOCATION)"
+resource_group_name = "$RESOURCE_GROUP_NAME"
+resource_group_location = "$RESOURCE_GROUP_LOCATION"
 
 address_space = "$ADDRESS_SPACE"
 
