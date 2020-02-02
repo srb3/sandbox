@@ -80,5 +80,8 @@ cat $(dirname $0)/terraform.tfvars
 terraform init
 terraform version
 ls -la
+
+cat $(dirname $0)/tf2.pub
+
 terraform apply -auto-approve
 
