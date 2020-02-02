@@ -1,11 +1,5 @@
 #!/bin/bash
 
-echo "CLIENT_ID: $ARM_CLIENT_ID"
-echo "CLIENT_SECRET: $ARM_CLIENT_SECRET"
-echo "SUBSCRIPTION_ID: $ARM_SUBSCRIPTION_ID"
-echo "TENANT_ID: $ARM_TENANT_ID"
-
-
 echo -e $SSH_PUBLIC_KEY > ./tf.pub
 echo -e $SSH_PRIVATE_KEY > ./tf
 
