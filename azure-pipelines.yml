@@ -12,10 +12,12 @@ pool:
 steps:
 - task: Bash@3
   inputs:
+    workingDirectory: '$(System.DefaultWorkingDirectory)/setup/'
     filePath: './pipeline_setup.sh'
 - task: Bash@3
   inputs:
     targetType: 'inline'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/setup/'
     script: |
       # Write your commands here
       
