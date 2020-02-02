@@ -72,12 +72,6 @@ chef_automate_products = ["automate", "builder"]
 data_collector_token = "$DATA_COLLECTOR_TOKEN"
 EOF
 
-cat $0
-
-echo -e "TFVARS\n"
-cat $(dirname $0)/terraform.tfvars
 terraform init
 terraform version
-ls -la
 terraform apply -auto-approve
-
