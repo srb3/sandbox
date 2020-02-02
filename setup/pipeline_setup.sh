@@ -1,5 +1,7 @@
 #!/bin/bash
 
+az login --service-principal -u $APP_ID -p $PASS --tenant $TENANT
+
 echo -e $SSH_PUBLIC_KEY > ./tf.pub
 echo -e $SSH_PRIVATE_KEY > ./tf
 
