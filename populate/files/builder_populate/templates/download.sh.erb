@@ -1,0 +1,2 @@
+export HAB_AUTH_TOKEN=<%= node['builder_populate']['public_auth_token'] %>
+hab pkg download --target x86_64-linux --channel stable --file <%= node['builder_populate']['hab_file'] %> --download-directory builder_bootstrap &> hab_download.log
