@@ -23,7 +23,8 @@ module "vnet" {
 }
 
 module "chef_automate_base" {
-  source                        = "/home/steveb/workspace/terraform/modules/srb3/terraform-azurerm-workshop-server"
+  source                        = "srb3/workshop-server/azurerm"
+  version                       = "0.0.1"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -57,9 +58,8 @@ module "chef_automate_base" {
 }
 
 module "chef_automate" {
-  source                = "/home/steveb/workspace/terraform/modules/srb3/terraform-linux-chef-automate"
-  #source                = "srb3/chef-automate/linux"
-  #version               = "0.0.15"
+  source                = "srb3/chef-automate/linux"
+  version               = "0.0.16"
   ips                   = module.chef_automate_base.server_public_ip
   instance_count        = var.chef_automate_count
   install_version       = var.chef_automate_version
@@ -72,23 +72,4 @@ module "chef_automate" {
   products              = var.chef_automate_products
   data_collector_token  = var.data_collector_token
   admin_password        = var.chef_automate_admin_password
-}
-
-#module "populate_automate_builder" {
-#  source                = "/home/steveb/workspace/terraform/modules/srb3/terraform-linux-chef-automate-builder"
-#  ips                   = module.chef_automate_base.server_public_ip
-#  instance_count        = var.chef_automate_count
-#  user_name             = var.user_name
-#  automate_module       = jsonencode(module.chef_automate)
-#}
-
-module "populate_automate_server" {
-  source                = "/home/steveb/workspace/terraform/modules/srb3/terraform-linux-chef-automate-populate"
-  instance_count        = var.chef_automate_count
-  ips                   = module.chef_automate_base.server_public_ip
-  user_name             = var.user_name
-  # module_input          = jsonencode(module.populate_automate_builder.module_hook)
-  automate_module       = jsonencode(module.chef_automate)
-  user_private_key      = var.user_private_key
-  enabled_profiles      = var.enabled_profiles
 }
