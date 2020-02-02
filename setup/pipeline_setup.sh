@@ -76,7 +76,7 @@ cat $0
 
 echo -e "TFVARS\n"
 cat $(dirname $0)/terraform.tfvars
-
 terraform init
+terraform version
 terraform apply -auto-approve
 
