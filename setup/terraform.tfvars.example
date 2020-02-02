@@ -1,0 +1,75 @@
+tags = {
+  "customer" = "<customer_name>"
+  "application" = "test"
+  "ttl" = "<some_ttl>"
+  "project" = "<demo>"
+  "dept" = "<mydept>"
+  "contact" = "<myemail@mail.com>"
+  "prefix" = "<username>"
+}
+
+create_user = true
+user_name = "<username>"
+user_public_key = "<path_to_public_key>"
+user_private_key = "<path_to_pricate_key>"
+
+resource_group_name = "<resource_group_name>"
+resource_group_location = "<azure_location>"
+
+
+address_space = "<e.g. 10.0.0.0/16>"
+
+subnet_prefix = ["<e.g. 10.0.1.0/24>"]
+
+subnet_names = ["<subnet_name>"]
+
+# some predefined examples
+predefined_rules = [
+  {
+    name     = "SSH",
+    priority = "100"
+  },
+  {
+    name     = "HTTP"
+    priority = "300"
+  },
+  {
+    name     = "HTTPS"
+    priority = "400"
+  }
+]
+# full list of predefined ruls: https://github.com/Azure/terraform-azurerm-network-security-group/blob/master/rules.tf
+
+# example of defining a custom rule
+custom_rules = [
+  {
+    name                   = "rbhttp"
+    priority               = "200"
+    direction              = "Inbound"
+    access                 = "Allow"
+    protocol               = "tcp"
+    destination_port_range = "8080"
+    description            = "rb-http"
+  }
+]
+
+vm_size = "Standard_DS3_v2"
+server_count = 1
+vm_os_publisher = "OpenLogic"
+vm_os_offer = "CentOS"
+vm_os_sku = "7.5"
+vm_os_version = "latest"
+allocation_method = "dynamic"
+nb_public_ip = "1"
+delete_os_disk_on_termination = true
+data_sa_type = "Standard_LRS"
+data_disk_size_gb = "30"
+data_disk = true
+
+chef_automate_license = "<chef_automate_license_string>"
+chef_automate_admin_password = "<chef_automate_admin_password>"
+chef_automate_hostname = "chef-automate-gb"
+chef_automate_version = "latest"
+chef_automate_channel = "dev"
+chef_automate_products = ["automate", "builder"]
+data_collector_token = "<data_collector_token>"

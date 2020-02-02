@@ -34,9 +34,9 @@ module "chef_automate_base" {
   predefined_rules              = var.predefined_rules
   custom_rules                  = var.custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
-  public_ip_dns                 = var.instance_name
+  public_ip_dns                 = var.chef_automate_hostname
   nb_instances                  = var.server_count
-  instance_name                 = var.instance_name
+  instance_name                 = var.chef_automate_hostname
   vm_size                       = var.vm_size
   vm_os_simple                  = var.vm_os_simple
   vm_os_id                      = var.vm_os_id
@@ -53,7 +53,7 @@ module "chef_automate_base" {
   data_disk                     = var.data_disk 
   install_workstation_tools     = true
   populate_hosts                = true
-  domain_name_label             = var.instance_name
+  domain_name_label             = var.chef_automate_hostname
   tags                          = var.tags
 }
 
@@ -61,7 +61,7 @@ module "chef_automate" {
   source                = "srb3/chef-automate/linux"
   version               = "0.0.16"
   ips                   = module.chef_automate_base.server_public_ip
-  instance_count        = var.chef_automate_count
+  instance_count        = var.server_count
   install_version       = var.chef_automate_version
   ssh_user_name         = var.user_name
   ssh_user_private_key  = var.user_private_key

@@ -82,12 +82,6 @@ variable "custom_rules" {
   ]
 }
 
-variable "instance_name" {
-  description = "the hostname to give our server"
-  type        = string
-  default     = "test-server"
-}
-
 variable "vm_size" {
   description = "The size of the vm to create"
   type        = string
@@ -165,38 +159,7 @@ variable "data_disk" {
   default     = false
 }
 
-########### dns settings ########################
-
-variable "dnsimple_oauth_token" {
-  type = string
-}
-
-variable "dnsimple_account" {
-  type = string
-}
-
-variable "dnsimple_domain_name" {
-  type = string
-}
-
-variable "issuer_url" {
-  type    = string
-  default = "https://acme-staging-v02.api.letsencrypt.org/directory"
-}
-
-
-########### automate populate settings ##########
-
-variable "builder" {
-  type    = bool
-  default = false
-}
-
 ########### chef Autoamte settings ##############
-
-variable "chef_automate_count" {
-  default = 1
-}
 
 variable "chef_automate_admin_password" {
   type    = string
@@ -231,11 +194,3 @@ variable "data_collector_token" {
   type    = string
   default = ""
 }
-
-########### automate populate settings ##########
-
-variable "enabled_profiles" {
-  type    = list
-  default = []
-}
-
