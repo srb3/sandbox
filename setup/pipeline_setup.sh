@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export ARM_CLIENT_ID="$ARM_CLIENT_ID"
-export ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
-export ARM_SUBSCRIPTION_ID="$ARM_SUBSCRIPTION_ID"
-export ARM_TENANT_ID="$ARM_TENANT_ID"
+export ARM_CLIENT_ID="$CLIENT_ID"
+export ARM_CLIENT_SECRET="$CLIENT_SECRET"
+export ARM_SUBSCRIPTION_ID="$SUBSCRIPTION_ID"
+export ARM_TENANT_ID="$TENANT_ID"
 
 echo "CLIENT_ID: $ARM_CLIENT_ID"
 echo "CLIENT_SECRET: $ARM_CLIENT_SECRET"
@@ -78,6 +78,9 @@ data_collector_token = "$DATA_COLLECTOR_TOKEN"
 EOF
 
 cat $0
+
+echo -e "TFVARS\n"
+cat $(dirname $0)/terraform.tfvars
 
 terraform init
 terraform apply -auto-approve
