@@ -12,20 +12,5 @@ pool:
 steps:
 - task: Bash@3
   inputs:
-    targetType: 'inline'
-    script: |
-      echo 'test'
-      echo $(pwd)
-      ls -la
-- task: Bash@3
-  inputs:
     workingDirectory: '$(System.DefaultWorkingDirectory)/setup/'
     filePath: '$(System.DefaultWorkingDirectory)/setup/pipeline_setup.sh'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/setup/'
-    script: |
-      echo 'running terraform'
-      terraform init
-      terraform apply -auto-approve

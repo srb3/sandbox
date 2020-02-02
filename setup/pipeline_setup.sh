@@ -1,5 +1,16 @@
 #!/bin/bash
 
+export ARM_CLIENT_ID="$ARM_CLIENT_ID"
+export ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
+export ARM_SUBSCRIPTION_ID="$ARM_SUBSCRIPTION_ID"
+export ARM_TENANT_ID="$ARM_TENANT_ID"
+
+echo "CLIENT_ID: $ARM_CLIENT_ID"
+echo "CLIENT_SECRET: $ARM_CLIENT_SECRET"
+echo "SUBSCRIPTION_ID: $ARM_SUBSCRIPTION_ID"
+echo "TENANT_ID: $ARM_TENANT_ID"
+
+
 echo -e $SSH_PUBLIC_KEY > ./tf.pub
 echo -e $SSH_PRIVATE_KEY > ./tf
 
@@ -65,3 +76,9 @@ chef_automate_channel = "dev"
 chef_automate_products = ["automate", "builder"]
 data_collector_token = "$DATA_COLLECTOR_TOKEN"
 EOF
+
+cat $0
+
+terraform init
+terraform apply -auto-approve
+
