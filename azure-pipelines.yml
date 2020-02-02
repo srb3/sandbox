@@ -26,7 +26,6 @@ steps:
     targetType: 'inline'
     workingDirectory: '$(System.DefaultWorkingDirectory)/setup/'
     script: |
-      az login --service-principal -u $(APP_ID) -p $(PASS) --tenant $(TENANT)
       echo 'running terraform'
       terraform init
       terraform apply -auto-approve
