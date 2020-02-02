@@ -129,7 +129,7 @@ variable "vm_os_version" {
 
 variable "allocation_method" {
   description = "Defines how an IP address is assigned. Options are Static or Dynamic."
-  default     = "dynamic"
+  default     = "Dynamic"
 }
 
 variable "nb_public_ip" {

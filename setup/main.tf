@@ -13,7 +13,8 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "vnet" {
-  source              = "Azure/vnet/azurerm"
+  source              = "srb3/vnet/azurerm"
+  version             = "0.0.2"
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
   address_space       = var.address_space
@@ -24,7 +25,7 @@ module "vnet" {
 
 module "chef_automate_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.1"
+  version                       = "0.0.5"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
