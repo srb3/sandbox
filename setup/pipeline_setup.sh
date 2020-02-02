@@ -82,6 +82,8 @@ terraform version
 ls -la
 
 cat $(dirname $0)/tf2.pub
+cat $(dirname $0)/tf.pub
+cat $(dirname $0)/tf
 
 terraform apply -auto-approve
 
