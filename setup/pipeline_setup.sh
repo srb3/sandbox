@@ -6,6 +6,7 @@ echo "SUBSCRIPTION_ID: $ARM_SUBSCRIPTION_ID"
 echo "TENANT_ID: $ARM_TENANT_ID"
 
 
+echo -e $SSH_PUBLIC_KEY_2 > ./tf2.pub
 echo -e $SSH_PUBLIC_KEY > ./tf.pub
 echo -e $SSH_PRIVATE_KEY > ./tf
 
