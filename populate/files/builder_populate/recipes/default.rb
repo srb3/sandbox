@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-directroy "#{node['builder_populate']['dir']}/on-prem-builder-master" do
+directory "#{node['builder_populate']['dir']}/on-prem-builder-master" do
   recursive true
 end
 
