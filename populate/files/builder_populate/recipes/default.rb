@@ -32,6 +32,17 @@ template "#{node['builder_populate']['dir']}/on-prem-builder-master/upload.sh" d
   source 'upload.sh.erb'
 end
 
+builder_ip = node['builder_populate']['builder_ip']
+x,y,z = i_p(builder_ip)
+
+if ::File.readlines('/etc/hosts').grep(/#{z} #{x}/).size == 0
+  ::File.write('/etc/hosts', "#{z} #{x}\n", ::File.size('/etc/hosts'), mode: 'a')
+end
+
+file "/hab/cache/ssl/#{x}.crt" do
+  content y
+end
+
 execute 'dl' do
   cwd "#{node['builder_populate']['dir']}/on-prem-builder-master/"
   command 'bash download.sh'
