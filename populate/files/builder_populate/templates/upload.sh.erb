@@ -1,2 +1,2 @@
 export HAB_AUTH_TOKEN=<%= node['builder_populate']['private_auth_token'] %>
-hab pkg bulkupload --url https://$(hostname -f) --force --channel stable builder_bootstrap/ &> hab_upload.log
+hab pkg bulkupload --url https://$(hostname -f)/bldr/v1 --auto-create-origins --force --channel stable builder_bootstrap/ &> hab_upload.log
