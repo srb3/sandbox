@@ -1,0 +1,29 @@
+ip = ""
+ssh_user = ""
+ssh_private_key = ""
+public_auth_token = ""
+private_auth_token = ""
+hab_pkgs = [
+  "core/hab",
+  "core/hab-sup",
+  "core/hab-launcher",
+  "core/postgresql",
+  "core/postgresql-client",
+  "devoptimist/dbgis10",
+  "devoptimist/dbgis11",
+  "devoptimist/dbgis96",
+  "devoptimist/automate-cluster-grafana",
+  "devoptimist/automate_cluster_loadbalancer",
+  "devoptimist/chef-ha-cluster-grafana",
+  "devoptimist/chef-ha-cluster-telegraf",
+  "devoptimist/chef-load",
+  "devoptimist/effortless-guacd",
+  "devoptimist/grafana-chef-ha",
+  "devoptimist/guacamole-client",
+  "devoptimist/guacamole-webserver",
+  "devoptimist/haproxy",
+  "devoptimist/jenkins",
+  "devoptimist/keepalived",
+  "devoptimist/pgbench",
+  "devoptimist/postgresql"
+]
