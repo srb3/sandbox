@@ -7,6 +7,9 @@ mkdir -p ~/.ssh
 
 touch ~/.ssh/known_hosts
 
+sudo apt-get update
+sudo apt-get install -y sshpass jq
+
 cat << EOF > ./terraform.tfvars
 tags = {
   "customer" = "$CUSTOMER_NAME"
