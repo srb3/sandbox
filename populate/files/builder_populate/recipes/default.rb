@@ -32,8 +32,9 @@ template "#{node['builder_populate']['dir']}/on-prem-builder-master/upload.sh" d
   source 'upload.sh.erb'
 end
 
-builder_ip = node['builder_populate']['builder_ip']
-x,y,z = i_p(builder_ip)
+extend BuilderPopulate::SslHelpers
+
+x,y,z = i_p(node['builder_populate']['builder_ip'])
 
 if ::File.readlines('/etc/hosts').grep(/#{z} #{x}/).size == 0
   ::File.write('/etc/hosts', "#{z} #{x}\n", ::File.size('/etc/hosts'), mode: 'a')
