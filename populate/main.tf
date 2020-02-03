@@ -21,7 +21,7 @@ resource "null_resource" "builder_populate" {
   depends_on = [local_file.builder_populate_policy_file]
 
   provisioner "local-exec" {
-    command = "chef-run ssh://${var.ssh_user}@${var.ip} files/builder_populate --identity-file ${var.ssh_private_key_path}"
+    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.ip} files/builder_populate --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 
 }
