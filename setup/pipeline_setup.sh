@@ -3,6 +3,9 @@
 echo -e $SSH_PUBLIC_KEY > ./tf.pub
 echo -e $SSH_PRIVATE_KEY > ./tf
 
+mkdir -p ~/.ssh
+
+touch ~/.ssh/known_hosts
 
 cat << EOF > ./terraform.tfvars
 tags = {
