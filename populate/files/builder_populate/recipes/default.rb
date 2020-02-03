@@ -16,6 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+directroy "#{node['builder_populate']['dir']}/on-prem-builder-master" do
+  recursive true
+end
+
 template node['builder_populate']['hab_file'] do
   source 'hab_file.erb'
 end
