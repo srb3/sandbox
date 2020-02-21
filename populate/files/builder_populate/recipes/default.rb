@@ -21,11 +21,11 @@ directory "#{node['builder_populate']['dir']}/on-prem-builder-master" do
 end
 
 template node['builder_populate']['hab_file_linux'] do
-  source 'hab_file.erb'
+  source 'hab_file_linux.erb'
 end
 
 template node['builder_populate']['hab_file_win'] do
-  source 'hab_file.erb'
+  source 'hab_file_win.erb'
 end
 
 template "#{node['builder_populate']['dir']}/on-prem-builder-master/download.sh" do
