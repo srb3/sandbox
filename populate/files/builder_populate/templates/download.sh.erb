@@ -2,4 +2,5 @@ export HAB_AUTH_TOKEN=<%= node['builder_populate']['public_auth_token'] %>
 if [[ ! -f ~/.hab/accepted-licenses/habitat ]]; then
   hab license accept
 fi
-hab pkg download --target x86_64-linux --channel stable --file <%= node['builder_populate']['hab_file'] %> --download-directory builder_bootstrap &> hab_download.log
+hab pkg download --target x86_64-linux --channel stable --file <%= node['builder_populate']['hab_file_linux'] %> --download-directory builder_bootstrap &> hab_download_linux.log
+hab pkg download --target x86_64-windows --channel stable --file <%= node['builder_populate']['hab_file_win'] %> --download-directory builder_bootstrap &> hab_download_win.log

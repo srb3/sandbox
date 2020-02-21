@@ -23,7 +23,12 @@ variable "private_auth_token" {
   type        = string
 }
 
-variable "hab_pkgs" {
-  description = "A list of pakages to download from public builder and then upload to private builder"
+variable "hab_pkgs_linux" {
+  description = "A list of linux pakages to download from public builder and then upload to private builder"
+  type        = list
+}
+
+variable "hab_pkgs_win" {
+  description = "A list of windows pakages to download from public builder and then upload to private builder"
   type        = list
 }

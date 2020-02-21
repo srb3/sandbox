@@ -20,7 +20,11 @@ directory "#{node['builder_populate']['dir']}/on-prem-builder-master" do
   recursive true
 end
 
-template node['builder_populate']['hab_file'] do
+template node['builder_populate']['hab_file_linux'] do
+  source 'hab_file.erb'
+end
+
+template node['builder_populate']['hab_file_win'] do
   source 'hab_file.erb'
 end
 

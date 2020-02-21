@@ -3,7 +3,8 @@ locals {
     builder_ip = var.ip,
     public_auth_token = var.public_auth_token,
     private_auth_token = var.private_auth_token,
-    hab_pkgs = var.hab_pkgs
+    hab_pkgs_linux = var.hab_pkgs_linux
+    hab_pkgs_win   = var.hab_pkgs_win
   })
 }
 
