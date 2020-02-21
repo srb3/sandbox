@@ -154,9 +154,28 @@ variable "data_disk_size_gb" {
 }
 
 variable "data_disk" {
-  type        = bool
   description = "Set to true to add a datadisk."
+  type        = bool
   default     = false
+}
+
+########### Azure MSSQL settings ################
+
+variable "db_name" {
+  description = "The name of the mssql instance"
+  type        = "string"
+  default     = "mydb"
+}
+
+variable "db_admin_username" {
+  description = "The admin user name for the db instance"
+  type        = "string"
+  default     = "admin"
+}
+
+variable "db_admin_password" {
+  description = "The admin password for the db instance"
+  type        = "string"
 }
 
 ########### chef Autoamte settings ##############
@@ -193,4 +212,121 @@ variable "chef_automate_products" {
 variable "data_collector_token" {
   type    = string
   default = ""
+}
+
+############ workstation settings #######################
+
+variable "workstation_predefined_rules" {
+  description = "The Predefined rules for this test server"
+  type        = list
+  default     = [
+    {
+      name     = "WinRM",
+      priority = "200"
+    },
+    {
+      name     = "RDP",
+      priority = "201"
+    }
+  ]
+}
+
+variable "workstation_custom_rules" {
+  description = "The custom rules for this test server"
+  type        = list
+  default     = []
+}
+
+variable "workstation_vm_size" {
+  description = "The size of the vm to create"
+  type        = string
+  default     = "Standard_DS1_V2"
+}
+
+variable "workstation_count" {
+  default = 1
+}
+
+variable "workstation_vm_os_simple" {
+  description = "Specify UbuntuServer, WindowsServer, RHEL, openSUSE-Leap, CentOS, Debian, CoreOS and SLES to get the latest image version of the specified os.  Do not provide this value if a custom value is used for vm_os_publisher, vm_os_offer, and vm_os_sku."
+  default     = ""
+}
+
+variable "workstation_vm_os_id" {
+  description = "The resource ID of the image that you want to deploy if you are using a custom image.Note, need to provide is_windows_image = true for windows custom images."
+  default     = ""
+}
+
+variable "workstation_is_windows_image" {
+  description = "Boolean flag to notify when the custom image is windows based."
+  default     = false
+}
+
+variable "workstation_vm_os_publisher" {
+  description = "The name of the publisher of the image that you want to deploy. This is ignored when vm_os_id or vm_os_simple are provided."
+  default     = ""
+}
+
+variable "workstation_vm_os_offer" {
+  description = "The name of the offer of the image that you want to deploy. This is ignored when vm_os_id or vm_os_simple are provided."
+  default     = ""
+}
+
+variable "workstation_vm_os_sku" {
+  description = "The sku of the image that you want to deploy. This is ignored when vm_os_id or vm_os_simple are provided."
+  default     = ""
+}
+
+variable "workstation_vm_os_version" {
+  description = "The version of the image that you want to deploy. This is ignored when vm_os_id or vm_os_simple are provided."
+  default     = "latest"
+}
+
+variable "workstation_allocation_method" {
+  description = "Defines how an IP address is assigned. Options are Static or Dynamic."
+  default     = "Dynamic"
+}
+
+variable "workstation_nb_public_ip" {
+  description = "Number of public IPs to assign corresponding to one IP per vm. Set to 0 to not assign any public IP addresses."
+  default     = "1"
+}
+
+variable "workstation_delete_os_disk_on_termination" {
+  type        = bool
+  description = "Delete datadisk when machine is terminated"
+  default     = false
+}
+
+variable "workstation_data_sa_type" {
+  description = "Data Disk Storage Account type"
+  default     = "Standard_LRS"
+}
+
+variable "workstation_data_disk_size_gb" {
+  description = "Storage data disk size size"
+  default     = ""
+}
+
+variable "workstation_data_disk" {
+  description = "Set to true to add a datadisk."
+  type        = bool
+  default     = false
+}
+
+variable "workstation_hostname" {
+  description = "The hostname for the workstation instance"
+  type        = string
+}
+
+variable "workstation_user_name" {
+  description = "The user name for the workstation"
+  type        = string
+  default     = "chef"
+}
+
+variable "workstation_user_password" {
+  description = "The password for the workstation user"
+  type        = string
+  default     = "P@55w0rd1"
 }

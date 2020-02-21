@@ -59,7 +59,7 @@ vm_os_publisher = "OpenLogic"
 vm_os_offer = "CentOS"
 vm_os_sku = "7.5"
 vm_os_version = "latest"
-allocation_method = "dynamic"
+allocation_method = "Dynamic"
 nb_public_ip = "1"
 delete_os_disk_on_termination = true
 data_sa_type = "Standard_LRS"
@@ -73,3 +73,7 @@ chef_automate_version = "latest"
 chef_automate_channel = "dev"
 chef_automate_products = ["automate", "builder"]
 data_collector_token = "<data_collector_token>"
+
+db_name = "<database_name>"
+db_admin_username = "<database administrator name>"
+db_admin_password = "<database administrator password>"
