@@ -178,19 +178,38 @@ variable "data_disk" {
 
 ########### Azure MSSQL settings ################
 
-variable "db_name" {
+variable "db_name_prod" {
   description = "The name of the mssql instance"
   type        = "string"
   default     = "mydb"
 }
 
-variable "db_admin_username" {
+variable "db_admin_username_prod" {
   description = "The admin user name for the db instance"
   type        = "string"
   default     = "admin"
 }
 
-variable "db_admin_password" {
+variable "db_admin_password_prod" {
+  description = "The admin password for the db instance"
+  type        = "string"
+}
+
+########### Azure MSSQL settings ################
+
+variable "db_name_dev" {
+  description = "The name of the mssql dev instance"
+  type        = "string"
+  default     = "mydbdev"
+}
+
+variable "db_admin_username_dev" {
+  description = "The admin user name for the db instance"
+  type        = "string"
+  default     = "admin"
+}
+
+variable "db_admin_password_dev" {
   description = "The admin password for the db instance"
   type        = "string"
 }
@@ -346,4 +365,85 @@ variable "workstation_user_password" {
   description = "The password for the workstation user"
   type        = string
   default     = "P@55w0rd1"
+}
+
+############ docker_host settings #######################
+
+variable "docker_host_predefined_rules" {
+  description = "The Predefined rules for this test server"
+  type        = list
+  default     = [
+    {
+      name     = "SSH",
+      priority = "200"
+    }
+  ]
+}
+
+variable "docker_host_custom_rules" {
+  description = "The custom rules for the docker hosts"
+  type        = list
+  default     = [
+    {
+      name                   = "myhttp"
+      priority               = "200"
+      direction              = "Inbound"
+      access                 = "Allow"
+      protocol               = "tcp"
+      destination_port_range = "2375"
+      description            = "description-myhttp"
+    }
+  ]
+}
+
+variable "docker_host_vm_size" {
+  description = "The size of the vm to create"
+  type        = string
+  default     = "Standard_DS1_V2"
+}
+
+variable "docker_host_count" {
+  default = 1
+}
+
+variable "docker_host_vm_os_simple" {
+  description = "Specify UbuntuServer, WindowsServer, RHEL, openSUSE-Leap, CentOS, Debian, CoreOS and SLES to get the latest image version of the specified os.  Do not provide this value if a custom value is used for vm_os_publisher, vm_os_offer, and vm_os_sku."
+  default     = "CentOS"
+}
+
+variable "docker_host_allocation_method" {
+  description = "Defines how an IP address is assigned. Options are Static or Dynamic."
+  default     = "Dynamic"
+}
+
+variable "docker_host_nb_public_ip" {
+  description = "Number of public IPs to assign corresponding to one IP per vm. Set to 0 to not assign any public IP addresses."
+  default     = "1"
+}
+
+variable "docker_host_delete_os_disk_on_termination" {
+  type        = bool
+  description = "Delete datadisk when machine is terminated"
+  default     = false
+}
+
+variable "docker_host_data_sa_type" {
+  description = "Data Disk Storage Account type"
+  default     = "Standard_LRS"
+}
+
+variable "docker_host_data_disk_size_gb" {
+  description = "Storage data disk size size"
+  default     = ""
+}
+
+variable "docker_host_data_disk" {
+  description = "Set to true to add a datadisk."
+  type        = bool
+  default     = false
+}
+
+variable "docker_host_hostname" {
+  description = "The hostname for the docker_host instance"
+  type        = string
 }

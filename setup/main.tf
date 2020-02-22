@@ -31,7 +31,7 @@ module "vnet" {
 
 module "chef_automate_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.7"
+  version                       = "0.0.8"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -80,20 +80,31 @@ module "chef_automate" {
   admin_password        = var.chef_automate_admin_password
 }
 
-module "sql_database" {
+module "sql_database_prod" {
   source              = "Azure/database/azurerm"
   version             = "1.1.0"
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
-  db_name             = var.db_name
-  sql_admin_username  = var.db_admin_username
-  sql_password        = var.db_admin_password
+  db_name             = var.db_name_prod
+  sql_admin_username  = var.db_admin_username_prod
+  sql_password        = var.db_admin_password_prod
+  tags                = var.tags
+}
+
+module "sql_database_dev" {
+  source              = "Azure/database/azurerm"
+  version             = "1.1.0"
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
+  db_name             = var.db_name_dev
+  sql_admin_username  = var.db_admin_username_dev
+  sql_password        = var.db_admin_password_dev
   tags                = var.tags
 }
 
 module "workstation_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.7"
+  version                       = "0.0.8"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -125,4 +136,55 @@ module "workstation_base" {
   domain_name_label             = var.workstation_hostname
   tags                          = var.tags
   system_type                   = "windows"
+}
+
+module "docker_host_base" {
+  source                        = "srb3/workshop-server/azurerm"
+  version                       = "0.0.8"
+  resource_group_name           = var.resource_group_name
+  resource_group_location       = var.resource_group_location
+  user_name                     = var.user_name
+  create_user                   = var.create_user
+  user_private_key              = var.user_private_key
+  user_public_key               = var.user_public_key
+  predefined_rules              = var.docker_host_predefined_rules
+  custom_rules                  = var.docker_host_custom_rules
+  vnet_subnet_id                = module.vnet.vnet_subnets[0]
+  public_ip_dns                 = var.docker_host_hostname
+  nb_instances                  = var.docker_host_count
+  instance_name                 = var.docker_host_hostname
+  vm_size                       = var.docker_host_vm_size
+  vm_os_simple                  = var.docker_host_vm_os_simple
+  allocation_method             = var.docker_host_allocation_method  
+  nb_public_ip                  = var.docker_host_nb_public_ip
+  delete_os_disk_on_termination = var.docker_host_delete_os_disk_on_termination
+  data_sa_type                  = var.docker_host_data_sa_type
+  data_disk_size_gb             = var.docker_host_data_disk_size_gb
+  data_disk                     = var.docker_host_data_disk 
+  install_docker_host_tools     = true
+  docker_host_hab               = true
+  docker_host_chef              = true
+  populate_hosts                = true
+  domain_name_label             = var.docker_host_hostname
+  tags                          = var.tags
+}
+
+
+locals {
+  service = {
+    "srb3/chef_docker_wrapper" = {
+      "channel" = var.channel,
+      "group"   = var.service_group,
+    }
+  }
+}
+
+module "docker_host" {
+  source            = "srb3/habitat/chef"
+  version           = "0.0.6"
+  ips               = module.docker_host_base.server_public_ip
+  instance_count    = local.instance_count
+  user_name         = var.user_name
+  user_private_key  = var.user_private_key
+  hab_services      = local.services
 }
