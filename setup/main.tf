@@ -159,6 +159,6 @@ module "docker_host_base" {
   data_disk_size_gb             = var.docker_host_data_disk_size_gb
   data_disk                     = var.docker_host_data_disk 
   populate_hosts                = true
-  domain_name_labels            = var.docker_host_hostnames
+  domain_name_labels            = var.docker_host_hostname
   tags                          = var.tags
 }
