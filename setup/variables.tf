@@ -443,7 +443,7 @@ variable "docker_host_data_disk" {
   default     = false
 }
 
-variable "docker_host_hostname" {
-  description = "The hostname for the docker_host instance"
-  type        = string
+variable "docker_host_hostnames" {
+  description = "The hostnames for the docker_host instances"
+  type        = list
 }

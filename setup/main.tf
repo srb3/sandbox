@@ -31,7 +31,7 @@ module "vnet" {
 
 module "chef_automate_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.9"
+  version                       = "0.0.10"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -41,7 +41,6 @@ module "chef_automate_base" {
   predefined_rules              = var.predefined_rules
   custom_rules                  = var.custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
-  public_ip_dns                 = var.chef_automate_hostname
   nb_instances                  = var.server_count
   instance_name                 = var.chef_automate_hostname
   vm_size                       = var.vm_size
@@ -104,7 +103,7 @@ module "sql_database_dev" {
 
 module "workstation_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.9"
+  version                       = "0.0.10"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -113,7 +112,6 @@ module "workstation_base" {
   predefined_rules              = var.workstation_predefined_rules
   custom_rules                  = var.workstation_custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
-  public_ip_dns                 = var.workstation_hostname
   nb_instances                  = var.workstation_count
   instance_name                 = var.workstation_hostname
   vm_size                       = var.workstation_vm_size
@@ -140,7 +138,7 @@ module "workstation_base" {
 
 module "docker_host_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.9"
+  version                       = "0.0.10"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   user_name                     = var.user_name
@@ -150,7 +148,6 @@ module "docker_host_base" {
   predefined_rules              = var.docker_host_predefined_rules
   custom_rules                  = var.docker_host_custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
-  public_ip_dns                 = var.docker_host_hostname
   nb_instances                  = var.docker_host_count
   instance_name                 = var.docker_host_hostname
   vm_size                       = var.docker_host_vm_size
@@ -162,6 +159,6 @@ module "docker_host_base" {
   data_disk_size_gb             = var.docker_host_data_disk_size_gb
   data_disk                     = var.docker_host_data_disk 
   populate_hosts                = true
-  domain_name_label             = var.docker_host_hostname
+  domain_name_labels            = var.docker_host_hostnames
   tags                          = var.tags
 }
