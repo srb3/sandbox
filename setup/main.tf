@@ -161,9 +161,6 @@ module "docker_host_base" {
   data_sa_type                  = var.docker_host_data_sa_type
   data_disk_size_gb             = var.docker_host_data_disk_size_gb
   data_disk                     = var.docker_host_data_disk 
-  install_docker_host_tools     = true
-  docker_host_hab               = true
-  docker_host_chef              = true
   populate_hosts                = true
   domain_name_label             = var.docker_host_hostname
   tags                          = var.tags
