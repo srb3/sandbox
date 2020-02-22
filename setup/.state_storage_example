@@ -1,0 +1,25 @@
+location=westeurope
+resource_group_name=example_rg
+storage_account_name=examplestorageaccount
+sku=Standard_LRS
+container_name=examplecontainer
+
+### create ###
+
+az group show --name ${resource_group_name}
+
+az group create --name ${resource_group_name} --location ${location}
+
+az storage account show --name ${storage_account_name}
+
+az storage account create --location $location --name ${storage_account_name} --resource-group ${resource_group_name} --sku ${sku}
+
+az storage container show --name ${container_name} --account-name ${storage_account_name}
+
+az storage container create --name ${container_name} --account-name ${storage_account_name}
+
+### delete ####
+
+az storage account delete --name ${storage_account_name} --resource-group ${resource_group_name} --yes
+
+az group delete --name ${resource_group_name} --yes

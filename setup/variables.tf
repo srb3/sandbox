@@ -1,3 +1,20 @@
+########### state ###############################
+
+variable "state_resource_group" {
+  description = "The resource group name that holds the state storage account"
+  type        = string
+}
+
+variable "state_storage_group" {
+  description = "The storagegroup name that holds the state container"
+  type        = string
+}
+
+variable "state_container" {
+  description = "The container name that holds the state"
+  type        = string
+}
+
 ########### aws details #########################
 
 variable "tags" {
