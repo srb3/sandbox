@@ -26,3 +26,35 @@ resource "null_resource" "builder_populate" {
   }
 
 }
+
+locals {
+  service = {
+    "srb3/chef_docker_wrapper" = {}
+  }
+}
+
+module "docker_host_prod" {
+  source              = "srb3/habitat/chef"
+  version             = "0.0.6"
+  ips                 = var.docker_host_prod_ip
+  instance_count      = 1
+  user_name           = var.docker_host_user_name
+  user_private_key    = var.docker_host_user_private_key
+  hab_services        = local.service
+  bldr_url            = "https://${var.ip}/bldr"
+  hab_service_channel = "stable"
+  hab_sup_auto_update = true
+}
+
+module "docker_host_dev" {
+  source              = "srb3/habitat/chef"
+  version             = "0.0.6"
+  ips                 = var.docker_host_dev_ip
+  instance_count      = 1
+  user_name           = var.docker_host_user_name
+  user_private_key    = var.docker_host_user_private_key
+  hab_services        = local.service
+  bldr_url            = "https://${var.ip}/bldr"
+  hab_service_channel = "unstable"
+  hab_sup_auto_update = true
+}

@@ -32,3 +32,23 @@ variable "hab_pkgs_win" {
   description = "A list of windows pakages to download from public builder and then upload to private builder"
   type        = list
 }
+
+variable "docker_host_prod_ip" {
+  description = "The ip address of the docker host prod instance"
+  type        = string
+}
+
+variable "docker_host_dev_ip" {
+  description = "The ip address of the docker host dev instance"
+  type        = string
+}
+
+variable "docker_host_user_name" {
+  description = "The user name used to ssh to the docker hosts"
+  type        = string
+}
+
+variable "docker_host_user_private_key" {
+  description = "path to an ssh private key to access the docker hosts"
+  type        = string
+}

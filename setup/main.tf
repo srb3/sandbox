@@ -165,35 +165,3 @@ module "docker_host_base" {
   domain_name_label             = var.docker_host_hostname
   tags                          = var.tags
 }
-
-locals {
-  service = {
-    "srb3/chef_docker_wrapper" = {}
-  }
-}
-
-module "docker_host_prod" {
-  source              = "srb3/habitat/chef"
-  version             = "0.0.6"
-  ips                 = [module.docker_host_base.server_public_ip[0]]
-  instance_count      = 1
-  user_name           = var.user_name
-  user_private_key    = var.user_private_key
-  hab_services        = local.service
-  bldr_url            = "${module.chef_automate.url[0]}/bldr"
-  hab_service_channel = "stable"
-  hab_sup_auto_update = true
-}
-
-module "docker_host_dev" {
-  source              = "srb3/habitat/chef"
-  version             = "0.0.6"
-  ips                 = [module.docker_host_base.server_public_ip[1]]
-  instance_count      = 1
-  user_name           = var.user_name
-  user_private_key    = var.user_private_key
-  hab_services        = local.service
-  bldr_url            = "${module.chef_automate.url[0]}/bldr"
-  hab_service_channel = "unstable"
-  hab_sup_auto_update = true
-}
