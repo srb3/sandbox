@@ -31,7 +31,7 @@ module "vnet" {
 
 module "chef_automate_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.11"
+  version                       = "0.0.12"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -103,7 +103,7 @@ module "sql_database_dev" {
 
 module "workstation_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.11"
+  version                       = "0.0.12"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -138,7 +138,7 @@ module "workstation_base" {
 
 module "docker_host_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.11"
+  version                       = "0.0.12"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   user_name                     = var.user_name
