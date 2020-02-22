@@ -1,9 +1,9 @@
 terraform {
   required_version = "> 0.12.0"
   backend "azurerm" {
-    resource_group_name  = var.state_resource_group
-    storage_account_name = var.state_storage_group
-    container_name       = var.state_container
+    resource_group_name  = "sbrown_tf_state"
+    storage_account_name = "sbrowntfstatechef"
+    container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
   }
 }
