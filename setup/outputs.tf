@@ -18,54 +18,54 @@ output "chef_atuoamte_dns_names" {
 
 ############ prod db output ############
 
-output "geoapp_db_connection_string" {
-  value = module.sql_database.connection_string
+output "geoapp_db_connection_string_prod" {
+  value = module.sql_database_prod.connection_string
 }
 
-output "geoapp_db_database_name" {
-  value = module.sql_database.database_name
+output "geoapp_db_database_name_prod" {
+  value = module.sql_database_prod.database_name
 }
 
-output "geoapp_db_sql_server_fqdn" {
-  value = module.sql_database.sql_server_fqdn
+output "geoapp_db_sql_server_fqdn_prod" {
+  value = module.sql_database_prod.sql_server_fqdn
 }
 
-output "geoapp_db_sql_server_location" {
-  value = module.sql_database.sql_server_location
+output "geoapp_db_sql_server_location_prod" {
+  value = module.sql_database_prod.sql_server_location
 }
 
-output "geoapp_db_sql_server_name" {
-  value = module.sql_database.sql_server_name
+output "geoapp_db_sql_server_name_prod" {
+  value = module.sql_database_prod.sql_server_name
 }
 
-output "geoapp_db_sql_server_version" {
-  value = module.sql_database.sql_server_version
+output "geoapp_db_sql_server_version_prod" {
+  value = module.sql_database_prod.sql_server_version
 }
 
 ############ dev db output ############
 
-output "geoapp_db_connection_string" {
+output "geoapp_db_connection_string_dev" {
   value = module.sql_database_dev.connection_string
 }
 
-output "geoapp_db_database_name" {
+output "geoapp_db_database_name_dev" {
   value = module.sql_database_dev.database_name
 }
 
-output "geoapp_db_sql_server_fqdn" {
+output "geoapp_db_sql_server_fqdn_dev" {
   value = module.sql_database_dev.sql_server_fqdn
 }
 
-output "geoapp_db_sql_server_location" {
+output "geoapp_db_sql_server_location_dev" {
   value = module.sql_database_dev.sql_server_location
 }
 
-output "geoapp_db_sql_server_name" {
+output "geoapp_db_sql_server_name_dev" {
   value = module.sql_database_dev.sql_server_name
 }
 
-output "geoapp_db_sql_server_version" {
-  value = module.sql_database.sql_server_version
+output "geoapp_db_sql_server_version_dev" {
+  value = module.sql_database_dev.sql_server_version
 }
 
 ############ workstation output ############
