@@ -169,22 +169,34 @@ module "docker_host_base" {
   tags                          = var.tags
 }
 
-
 locals {
   service = {
-    "srb3/chef_docker_wrapper" = {
-      "channel" = var.channel,
-      "group"   = var.service_group,
-    }
+    "srb3/chef_docker_wrapper" = {}
   }
 }
 
-module "docker_host" {
-  source            = "srb3/habitat/chef"
-  version           = "0.0.6"
-  ips               = module.docker_host_base.server_public_ip
-  instance_count    = local.instance_count
-  user_name         = var.user_name
-  user_private_key  = var.user_private_key
-  hab_services      = local.services
+module "docker_host_prod" {
+  source               = "srb3/habitat/chef"
+  version              = "0.0.6"
+  ips                  = module.docker_host_base.server_public_ip[0]
+  instance_count       = local.instance_count
+  user_name            = var.user_name
+  user_private_key     = var.user_private_key
+  hab_services         = local.services
+  bldr_url             = "${module.chef_automate.url}/bldr"
+  hab_services_channel = "stable"
+  hab_sup_auto_update  = true
+}
+
+module "docker_host_dev" {
+  source               = "srb3/habitat/chef"
+  version              = "0.0.6"
+  ips                  = module.docker_host_base.server_public_ip[1]
+  instance_count       = local.instance_count
+  user_name            = var.user_name
+  user_private_key     = var.user_private_key
+  hab_services         = local.services
+  bldr_url             = "${module.chef_automate.url}/bldr"
+  hab_services_channel = "unstable"
+  hab_sup_auto_update  = true
 }
