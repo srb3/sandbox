@@ -89,7 +89,7 @@ variable "custom_rules" {
   default     = [
     {
       name                   = "myhttp"
-      priority               = "200"
+      priority               = "500"
       direction              = "Inbound"
       access                 = "Allow"
       protocol               = "tcp"
@@ -385,13 +385,13 @@ variable "docker_host_custom_rules" {
   type        = list
   default     = [
     {
-      name                   = "myhttp"
-      priority               = "200"
+      name                   = "docker"
+      priority               = "404"
       direction              = "Inbound"
       access                 = "Allow"
       protocol               = "tcp"
       destination_port_range = "2375"
-      description            = "description-myhttp"
+      description            = "docker-api"
     }
   ]
 }
