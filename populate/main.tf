@@ -3,8 +3,11 @@ locals {
     builder_ip = var.ip,
     public_auth_token = var.public_auth_token,
     private_auth_token = var.private_auth_token,
-    hab_pkgs_linux = var.hab_pkgs_linux
-    hab_pkgs_win   = var.hab_pkgs_win
+    hab_pkgs_linux_stable = var.hab_pkgs_linux_stable
+    hab_pkgs_win_stable   = var.hab_pkgs_win_stable
+    hab_pkgs_linux_unstable = var.hab_pkgs_linux_unstable
+    hab_pkgs_win_unstable   = var.hab_pkgs_win_unstable
+
   })
   policy_ssl = templatefile("${path.module}/templates/builder_ssl_policy.rb", {
     builder_ip = var.ip
@@ -46,11 +49,11 @@ resource "null_resource" "ssl_fetch" {
   depends_on = [local_file.builder_ssl_policy_file]
 
   provisioner "local-exec" {
-    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.docker_host_prod_ip} files/builder_populate --identity-file ${var.ssh_private_key_path} --chef-license accept"
+    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.docker_host_prod_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 
   provisioner "local-exec" {
-    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.docker_host_dev_ip} files/builder_populate --identity-file ${var.ssh_private_key_path} --chef-license accept"
+    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.docker_host_dev_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 }
 
@@ -62,28 +65,30 @@ locals {
 
 module "docker_host_prod" {
   source              = "srb3/habitat/chef"
-  version             = "0.0.9"
+  version             = "0.0.12"
   ips                 = [var.docker_host_prod_ip]
   instance_count      = 1
   user_name           = var.docker_host_user_name
   user_private_key    = var.docker_host_user_private_key
   hab_services        = local.service
-  bldr_url            = "https://${var.ip}/bldr"
+  bldr_url            = "https://${var.builder_hostname}/bldr/v1"
   hab_service_channel = "stable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
+  ssl_cert_file       = "/hab/cache/ssl/${var.builder_hostname}.crt"
 }
 
 module "docker_host_dev" {
   source              = "srb3/habitat/chef"
-  version             = "0.0.9"
+  version             = "0.0.12"
   ips                 = [var.docker_host_dev_ip]
   instance_count      = 1
   user_name           = var.docker_host_user_name
   user_private_key    = var.docker_host_user_private_key
   hab_services        = local.service
-  bldr_url            = "https://${var.ip}/bldr"
+  bldr_url            = "https://${var.builder_hostname}/bldr/v1"
   hab_service_channel = "unstable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
+  ssl_cert_file       = "/hab/cache/ssl/${var.builder_hostname}.crt"
 }

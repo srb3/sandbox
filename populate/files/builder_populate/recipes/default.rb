@@ -20,12 +20,20 @@ directory "#{node['builder_populate']['dir']}/on-prem-builder-master" do
   recursive true
 end
 
-template node['builder_populate']['hab_file_linux'] do
-  source 'hab_file_linux.erb'
+template node['builder_populate']['hab_file_linux_unstable'] do
+  source 'hab_file_linux_unstable.erb'
 end
 
-template node['builder_populate']['hab_file_win'] do
-  source 'hab_file_win.erb'
+template node['builder_populate']['hab_file_win_unstable'] do
+  source 'hab_file_win_unstable.erb'
+end
+
+template node['builder_populate']['hab_file_linux_stable'] do
+  source 'hab_file_linux_stable.erb'
+end
+
+template node['builder_populate']['hab_file_win_stable'] do
+  source 'hab_file_win_stable.erb'
 end
 
 template "#{node['builder_populate']['dir']}/on-prem-builder-master/download.sh" do

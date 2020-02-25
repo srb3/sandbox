@@ -3,6 +3,11 @@ variable "ip" {
   type        = string
 }
 
+variable "builder_hostname" {
+  description = "The hostname of the builder instance"
+  type        = string
+}
+
 variable "ssh_user" {
   description = "The user name used to ssh to the builder instace"
   type        = string
@@ -23,12 +28,22 @@ variable "private_auth_token" {
   type        = string
 }
 
-variable "hab_pkgs_linux" {
+variable "hab_pkgs_linux_unstable" {
   description = "A list of linux pakages to download from public builder and then upload to private builder"
   type        = list
 }
 
-variable "hab_pkgs_win" {
+variable "hab_pkgs_win_unstable" {
+  description = "A list of windows pakages to download from public builder and then upload to private builder"
+  type        = list
+}
+
+variable "hab_pkgs_linux_stable" {
+  description = "A list of linux pakages to download from public builder and then upload to private builder"
+  type        = list
+}
+
+variable "hab_pkgs_win_stable" {
   description = "A list of windows pakages to download from public builder and then upload to private builder"
   type        = list
 }
