@@ -1,6 +1,5 @@
 terraform {
   required_version = "> 0.12.0"
-  features {}
   backend "azurerm" {
     resource_group_name  = "sbrown_tf_state"
     storage_account_name = "sbrowntfstatechef"
@@ -11,6 +10,7 @@ terraform {
 
 provider "azurerm" {
   version = ">= 1.42.0"
+  features {}
 }
 
 resource "azurerm_resource_group" "rg" {
