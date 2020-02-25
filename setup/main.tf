@@ -9,8 +9,8 @@ terraform {
 }
 
 provider "azurerm" {
-  version = ">= 1.42.0"
-  features {}
+  version = ">= 1.44.0"
+  # features {}
 }
 
 resource "azurerm_resource_group" "rg" {
