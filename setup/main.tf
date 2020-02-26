@@ -30,6 +30,12 @@ module "vnet" {
   tags                = var.tags
 }
 
+data "azurerm_subnet" "subnet1" {
+  name                 = var.subnet_names
+  virtual_network_name = var.vnet.vnet_name
+  resource_group_name  = var.resource_group_name
+}
+
 module "chef_automate_base" {
   source                        = "srb3/workshop-server/azurerm"
   version                       = "0.0.13"
@@ -146,7 +152,7 @@ locals {
       access                 = "Allow"
       destination_port_range = var.docker_port
       description            = "The docker deamon port"
-      source_address_prefix  = module.vnet.vnet_name
+      source_address_prefix  = data.azurerm_subnet.subnet1.address_prefix
     }
   ]
 }
