@@ -15,3 +15,7 @@ end
 file "/hab/cache/ssl/#{x}.crt" do
   content y
 end
+
+execute 'bundle' do
+  command "cat /hab/cache/ssl/cert.pem /hab/cache/ssl/#{x}.crt > /hab/cache/ssl/bundle.pem"
+end
