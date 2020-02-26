@@ -150,24 +150,20 @@ module "workstation_base" {
   system_type                   = "windows"
 }
 
-
-resource "azurerm_virtual_machine_extension" "win_workstation" {
+resource "azurerm_virtual_machine_extension" "test" {
   name                 = var.workstation_hostname
+  location             = var.resource_group_location
+  resource_group_name  = var.resource_group_name
   virtual_machine_id   = module.workstation_base.vm_ids[0]
-  publisher            = "Microsoft.Azure.Extensions"
-  type                 = "CustomScript"
-  type_handler_version = "2.0"
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"
 
-  settings = <<SETTINGS
+  protected_settings = <<PROTECTED_SETTINGS
     {
-        "commandToExecute": "(Get-Content  C:\\AzureData\\CustomData.bin) | Set-Content C:\\bootstrap.ps1 ; C:\\bootstrap.ps1"
+      "commandToExecute": "(Get-Content  C:\\AzureData\\CustomData.bin) | Set-Content C:\\bootstrap.ps1 ; C:\\bootstrap.ps1"
     }
-SETTINGS
-
-
-  tags = {
-    environment = "Production"
-  }
+  PROTECTED_SETTINGS
 }
 
 locals {
