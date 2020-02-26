@@ -31,7 +31,7 @@ module "vnet" {
 }
 
 data "azurerm_subnet" "subnet1" {
-  name                 = var.subnet_names
+  name                 = var.subnet_names[0]
   virtual_network_name = module.vnet.vnet_name
   resource_group_name  = var.resource_group_name
 }
@@ -160,7 +160,7 @@ resource "azurerm_virtual_machine_extension" "win_workstation" {
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "(Get-Content  C:\AzureData\CustomData.bin) | Set-Content C:\bootstrap.ps1 ; C:\bootstrap.ps1"
+        "commandToExecute": "(Get-Content  C:\\AzureData\\CustomData.bin) | Set-Content C:\\bootstrap.ps1 ; C:\\bootstrap.ps1"
     }
 SETTINGS
 
