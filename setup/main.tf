@@ -138,7 +138,7 @@ module "workstation_base" {
 }
 
 locals {
-  docker_custom_rules = [
+  docker_host_custom_rules = [
     {
       name                   = "docker"
       priority               = "404"
