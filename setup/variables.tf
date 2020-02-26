@@ -380,20 +380,10 @@ variable "docker_host_predefined_rules" {
   ]
 }
 
-variable "docker_host_custom_rules" {
+variable "docker_port" {
   description = "The custom rules for the docker hosts"
-  type        = list
-  default     = [
-    {
-      name                   = "docker"
-      priority               = "404"
-      direction              = "Inbound"
-      access                 = "Allow"
-      protocol               = "tcp"
-      destination_port_range = "2375"
-      description            = "docker-api"
-    }
-  ]
+  type        = string
+  default     = "2375"
 }
 
 variable "docker_host_vm_size" {

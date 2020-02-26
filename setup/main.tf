@@ -137,6 +137,20 @@ module "workstation_base" {
   system_type                   = "windows"
 }
 
+locals {
+  docker_custom_rules = [
+    {
+      name                   = "docker"
+      priority               = "404"
+      direction              = "Inbound"
+      access                 = "Allow"
+      destination_port_range = var.docker_port
+      description            = "The docker deamon port"
+      source_address_prefix  = [module.vnet.vnet_name]
+    }
+  ]
+}
+
 module "docker_host_base" {
   source                        = "srb3/workshop-server/azurerm"
   version                       = "0.0.13"
@@ -147,7 +161,7 @@ module "docker_host_base" {
   user_private_key              = var.user_private_key
   user_public_key               = var.user_public_key
   predefined_rules              = var.docker_host_predefined_rules
-  custom_rules                  = var.docker_host_custom_rules
+  custom_rules                  = local.docker_host_custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.docker_host_count
   instance_name                 = var.docker_host_hostname
