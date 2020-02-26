@@ -75,7 +75,7 @@ module "docker_host_prod" {
   hab_service_channel = "stable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
-  ssl_cert_file       = "/hab/cache/ssl/${var.builder_hostname}.crt"
+  ssl_cert_file       = "/hab/cache/ssl/builder.crt"
 }
 
 module "docker_host_dev" {
@@ -90,5 +90,5 @@ module "docker_host_dev" {
   hab_service_channel = "unstable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
-  ssl_cert_file       = "/hab/cache/ssl/${var.builder_hostname}.crt"
+  ssl_cert_file       = "/hab/cache/ssl/builder.crt"
 }

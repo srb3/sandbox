@@ -12,6 +12,6 @@ if ::File.readlines('/etc/hosts').grep(/#{z} #{x}/).size == 0
   ::File.write('/etc/hosts', "#{z} #{x}\n", ::File.size('/etc/hosts'), mode: 'a')
 end
 
-file "/hab/cache/ssl/#{x}.crt" do
+file '/hab/cache/ssl/builder.crt' do
   content y
 end
