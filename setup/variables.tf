@@ -92,13 +92,13 @@ variable "custom_rules" {
 variable "source_address_prefix" {
   description = "The source address prefix to allow access to the vms from"
   type        = list
-  default     []
+  default     = []
 }
 
 variable "workstation_source_address_prefix" {
   description = "The source address prefix to allow access to the workstation from"
   type        = list
-  default     []
+  default     = []
 }
 
 variable "vm_size" {
