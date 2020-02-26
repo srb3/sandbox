@@ -86,17 +86,7 @@ variable "predefined_rules" {
 variable "custom_rules" {
   description = "The custom rules for this test server"
   type        = list
-  default     = [
-    {
-      name                   = "myhttp"
-      priority               = "500"
-      direction              = "Inbound"
-      access                 = "Allow"
-      protocol               = "tcp"
-      destination_port_range = "8080"
-      description            = "description-myhttp"
-    }
-  ]
+  default     = []
 }
 
 variable "vm_size" {

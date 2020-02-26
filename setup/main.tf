@@ -143,6 +143,26 @@ module "workstation_base" {
   system_type                   = "windows"
 }
 
+
+resource "azurerm_virtual_machine_extension" "win_workstation" {
+  name                 = var.workstation_hostname
+  virtual_machine_id   = module.workstation_base.vm_ids[0]
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  settings = <<SETTINGS
+    {
+        "commandToExecute": "(Get-Content  C:\AzureData\CustomData.bin) | Set-Content C:\\bootstrap.ps1 ; C:\\bootstrap.ps1"
+    }
+SETTINGS
+
+
+  tags = {
+    environment = "Production"
+  }
+}
+
 locals {
   docker_host_custom_rules = [
     {
