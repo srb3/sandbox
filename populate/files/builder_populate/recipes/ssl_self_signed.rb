@@ -1,5 +1,11 @@
 extend BuilderPopulate::SslHelpers
 
+directory '/hab/cache/ssl/' do
+  owner 'root'
+  group 'root'
+  recursive true
+end
+
 x,y,z = i_p(node['builder_populate']['builder_ip'])
 
 if ::File.readlines('/etc/hosts').grep(/#{z} #{x}/).size == 0
