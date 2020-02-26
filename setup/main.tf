@@ -32,12 +32,12 @@ module "vnet" {
 
 data "azurerm_subnet" "subnet1" {
   name                 = var.subnet_names
-  virtual_network_name = var.vnet.vnet_name
+  virtual_network_name = module.vnet.vnet_name
   resource_group_name  = var.resource_group_name
 }
 
 locals {
-  source_address_prefix = length(var.source_address_prefix) > 0 ? var.source_address_prefix : [source_address_prefix]
+  source_address_prefix = length(var.source_address_prefix) > 0 ? var.source_address_prefix : [data.azurerm_subnet.subnet1.address_prefix]
   workstation_source_address_prefix = length(var.workstation_source_address_prefix) > 0 ? var.workstation_source_address_prefix : ["*"]
 }
 
@@ -160,7 +160,7 @@ resource "azurerm_virtual_machine_extension" "win_workstation" {
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "(Get-Content  C:\AzureData\CustomData.bin) | Set-Content C:\\bootstrap.ps1 ; C:\\bootstrap.ps1"
+        "commandToExecute": "(Get-Content  C:\AzureData\CustomData.bin) | Set-Content C:\bootstrap.ps1 ; C:\bootstrap.ps1"
     }
 SETTINGS
 
