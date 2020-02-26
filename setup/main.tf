@@ -146,7 +146,7 @@ locals {
       access                 = "Allow"
       destination_port_range = var.docker_port
       description            = "The docker deamon port"
-      source_address_prefix  = [module.vnet.vnet_name[0]]
+      source_address_prefix  = module.vnet.vnet_name
     }
   ]
 }
