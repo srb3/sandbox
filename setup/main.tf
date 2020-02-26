@@ -36,6 +36,11 @@ data "azurerm_subnet" "subnet1" {
   resource_group_name  = var.resource_group_name
 }
 
+locals {
+  source_address_prefix = length(var.source_address_prefix) > 0 ? var.source_address_prefix : [source_address_prefix]
+  workstation_source_address_prefix = length(var.workstation_source_address_prefix) > 0 ? var.workstation_source_address_prefix : ["*"]
+}
+
 module "chef_automate_base" {
   source                        = "srb3/workshop-server/azurerm"
   version                       = "0.0.13"
@@ -47,6 +52,7 @@ module "chef_automate_base" {
   user_public_key               = var.user_public_key
   predefined_rules              = var.predefined_rules
   custom_rules                  = var.custom_rules
+  source_address_prefix         = local.source_address_prefix
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.server_count
   instance_name                 = var.chef_automate_hostname
@@ -118,6 +124,7 @@ module "workstation_base" {
   user_pass                     = var.workstation_user_password
   predefined_rules              = var.workstation_predefined_rules
   custom_rules                  = var.workstation_custom_rules
+  source_address_prefix         = var.workstation_source_address_prefix
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.workstation_count
   instance_name                 = var.workstation_hostname
