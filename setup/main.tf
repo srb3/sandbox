@@ -150,20 +150,40 @@ module "workstation_base" {
   system_type                   = "windows"
 }
 
-resource "azurerm_virtual_machine_extension" "test" {
+
+resource "azurerm_virtual_machine_extension" "setup" {
   name                 = var.workstation_hostname
   location             = var.resource_group_location
   resource_group_name  = var.resource_group_name
   virtual_machine_id   = module.workstation_base.vm_ids[0]
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
-  type_handler_version = "1.9"
+  type_handler_version = "1.10"
 
-  protected_settings = <<PROTECTED_SETTINGS
+  settings = <<SETTINGS
     {
-      "commandToExecute": "(Get-Content  C:\\AzureData\\CustomData.bin) | Set-Content C:\\bootstrap.ps1 ; C:\\bootstrap.ps1"
+      "commandToExecute": "copy C:\\AzureData\\CustomData.bin C:\\bootstrap.ps1"
     }
-  PROTECTED_SETTINGS
+  SETTINGS
+}
+
+resource "azurerm_virtual_machine_extension" "provision" {
+
+  depends_on = [azurerm_virtual_machine_extension.setup]
+
+  name                 = var.workstation_hostname
+  location             = var.resource_group_location
+  resource_group_name  = var.resource_group_name
+  virtual_machine_id   = module.workstation_base.vm_ids[0]
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.10"
+
+  settings = <<SETTINGS
+    {
+      "commandToExecute": "powershell -File C:\\bootstrap.ps1"
+    }
+  SETTINGS
 }
 
 locals {
