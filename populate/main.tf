@@ -1,15 +1,16 @@
 locals {
+  builder_ip = var.builder_private_ip != "" ? var.builder_private_ip : var.builder_public_ip
   policy = templatefile("${path.module}/templates/builder_populate_policy.rb", {
-    builder_ip = var.ip,
-    public_auth_token = var.public_auth_token,
-    private_auth_token = var.private_auth_token,
-    hab_pkgs_linux_stable = var.hab_pkgs_linux_stable,
-    hab_pkgs_win_stable   = var.hab_pkgs_win_stable,
+    builder_ip              = local.builder_ip,
+    public_auth_token       = var.public_auth_token,
+    private_auth_token      = var.private_auth_token,
+    hab_pkgs_linux_stable   = var.hab_pkgs_linux_stable,
+    hab_pkgs_win_stable     = var.hab_pkgs_win_stable,
     hab_pkgs_linux_unstable = var.hab_pkgs_linux_unstable,
     hab_pkgs_win_unstable   = var.hab_pkgs_win_unstable
   })
   policy_ssl = templatefile("${path.module}/templates/builder_ssl_policy.rb", {
-    builder_ip           = var.ip,
+    builder_ip           = local.builder_ip,
     chef_ssl_path        = var.chef_ssl_path,
     chef_ssl_bundle_name = var.chef_ssl_bundle_name
   })
@@ -29,7 +30,7 @@ resource "null_resource" "builder_populate" {
   depends_on = [local_file.builder_populate_policy_file]
 
   provisioner "local-exec" {
-    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.ip} files/builder_populate --identity-file ${var.ssh_private_key_path} --chef-license accept"
+    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.builder_public_ip} files/builder_populate --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 
 }

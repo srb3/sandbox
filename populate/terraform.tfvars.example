@@ -1,4 +1,4 @@
-ip = ""
+builder_public_ip = ""
 ssh_user = ""
 ssh_private_key = ""
 public_auth_token = ""

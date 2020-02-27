@@ -1,11 +1,12 @@
-variable "ip" {
+variable "builder_public_ip" {
   description = "The ip address of the builder instance"
   type        = string
 }
 
-variable "builder_hostname" {
-  description = "The hostname of the builder instance"
+variable "builder_private_ip" {
+  description = "The private ip of the builder instance"
   type        = string
+  default     = ""
 }
 
 variable "ssh_user" {
