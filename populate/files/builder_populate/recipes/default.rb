@@ -60,10 +60,12 @@ execute 'dl' do
   cwd "#{node['builder_populate']['dir']}/on-prem-builder-master/"
   command 'bash download.sh'
   environment ({'HAB_AUTH_TOKEN' => node['builder_populate']['public_auth_token']})
+  not_if { ::File.exist?("#{node['builder_populate']['dir']}/on-prem-builder-master/builder_lock") }
 end
 
 execute 'ul' do
   cwd "#{node['builder_populate']['dir']}/on-prem-builder-master/"
   command 'bash upload.sh'
   environment ({'HAB_AUTH_TOKEN' => node['builder_populate']['private_auth_token']})
+  not_if { ::File.exist?("#{node['builder_populate']['dir']}/on-prem-builder-master/builder_lock") }
 end
