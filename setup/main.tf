@@ -62,7 +62,7 @@ module "chef_automate_base" {
   user_private_key              = var.user_private_key
   user_public_key               = var.user_public_key
   predefined_rules              = var.predefined_rules
-  custom_rules                  = var.ssh_custom_rules
+  custom_rules                  = local.ssh_custom_rules
   source_address_prefix         = local.source_address_prefix
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.server_count
