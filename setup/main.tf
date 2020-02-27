@@ -47,7 +47,7 @@ locals {
       access                 = "Allow"
       destination_port_range = "22"
       description            = "The ssh port"
-      source_address_prefix  = workstation_source_address_prefix
+      source_address_prefix  = local.workstation_source_address_prefix
     }
   ]
 }
