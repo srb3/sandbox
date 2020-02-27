@@ -3,7 +3,7 @@ extend BuilderPopulate::SslHelpers
 ssl_dir = node['builder_populate']['chef_ssl_path']
 ssl_bundle_name = node['builder_populate']['chef_ssl_bundle_name']
 
-directory ssl_dir
+directory ssl_dir do
   owner 'root'
   group 'root'
   recursive true
