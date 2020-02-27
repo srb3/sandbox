@@ -215,10 +215,10 @@ variable "chef_automate_products" {
   default = ["automate"]
 }
 
-variable "chef_automate_hostname_is_hostname" {
-  description = "Use the hostname of the instance as the chef automate hostname"
-  type        = bool
-  default     = false
+variable "chef_automate_hostname_method" {
+  description = "The method used to set the chef automate hostname, ignored if setting the fqdn module variable directly"
+  type        = string
+  default     = "fqdn"
 }
 
 variable "data_collector_token" {
