@@ -105,7 +105,6 @@ module "chef_automate" {
   install_version       = var.chef_automate_version
   ssh_user_name         = var.user_name
   ssh_user_private_key  = var.user_private_key
-  fqdns                 = module.chef_automate_base.public_ip_dns_name
   module_input          = jsonencode(module.chef_automate_base.vm_ids)
   chef_automate_license = var.chef_automate_license
   channel               = var.chef_automate_channel

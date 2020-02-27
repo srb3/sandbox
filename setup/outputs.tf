@@ -1,11 +1,27 @@
 ############ chef automate output ############
 
-output "chef_automate_ips" {
-  value = module.chef_automate_base.server_public_ip
+output "chef_atuoamte_url" {
+  value = module.chef_automate.url
 }
 
-output "chef_atuoamte_dns_names" {
-  value = module.chef_automate_base.public_ip_dns_name
+output "chef_atuoamte_admin_user" {
+  value = module.chef_automate.admin_user
+}
+
+output "chef_atuoamte_admin_pass" {
+  value = module.chef_automate.admin_pass
+}
+
+output "chef_atuoamte_token" {
+  value = module.chef_automate.token
+}
+
+output "chef_atuoamte_data_collector_url" {
+  value = module.chef_automate.admin_pass
+}
+
+output "chef_automate_public_ips" {
+  value = module.chef_automate_base.server_public_ip
 }
 
 ############ prod db output ############
