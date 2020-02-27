@@ -39,6 +39,17 @@ data "azurerm_subnet" "subnet1" {
 locals {
   source_address_prefix = length(var.source_address_prefix) > 0 ? var.source_address_prefix : [data.azurerm_subnet.subnet1.address_prefix]
   workstation_source_address_prefix = length(var.workstation_source_address_prefix) > 0 ? var.workstation_source_address_prefix : ["*"]
+  ssh_custom_rules = [
+    {
+      name                   = "ssh_filtered"
+      priority               = "404"
+      direction              = "Inbound"
+      access                 = "Allow"
+      destination_port_range = "22"
+      description            = "The ssh port"
+      source_address_prefix  = workstation_source_address_prefix
+    }
+  ]
 }
 
 module "chef_automate_base" {
@@ -51,7 +62,7 @@ module "chef_automate_base" {
   user_private_key              = var.user_private_key
   user_public_key               = var.user_public_key
   predefined_rules              = var.predefined_rules
-  custom_rules                  = var.custom_rules
+  custom_rules                  = var.ssh_custom_rules
   source_address_prefix         = local.source_address_prefix
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.server_count
