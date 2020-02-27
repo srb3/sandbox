@@ -3,15 +3,15 @@ locals {
     builder_ip = var.ip,
     public_auth_token = var.public_auth_token,
     private_auth_token = var.private_auth_token,
-    hab_pkgs_linux_stable = var.hab_pkgs_linux_stable
-    hab_pkgs_win_stable   = var.hab_pkgs_win_stable
-    hab_pkgs_linux_unstable = var.hab_pkgs_linux_unstable
+    hab_pkgs_linux_stable = var.hab_pkgs_linux_stable,
+    hab_pkgs_win_stable   = var.hab_pkgs_win_stable,
+    hab_pkgs_linux_unstable = var.hab_pkgs_linux_unstable,
     hab_pkgs_win_unstable   = var.hab_pkgs_win_unstable
-    chef_ssl_path           = var.chef_ssl_path
-    chef_ssl_bundle_name    = var.chef_ssl_bundle_name
   })
   policy_ssl = templatefile("${path.module}/templates/builder_ssl_policy.rb", {
-    builder_ip = var.ip
+    builder_ip           = var.ip,
+    chef_ssl_path        = var.chef_ssl_path,
+    chef_ssl_bundle_name = var.chef_ssl_bundle_name
   })
 }
 
