@@ -17,3 +17,5 @@ default['builder_populate']['hab_packages_win_stable'] = []
 default['builder_populate']['hab_packages_linux_unstable'] = []
 default['builder_populate']['hab_packages_win_unstable'] = []
 
+default['builder_populate']['chef_ssl_path'] = '/var/tmp/chef_ssl'
+default['builder_populate']['chef_ssl_bundle_name'] = 'bundle.pem'

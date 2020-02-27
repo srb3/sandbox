@@ -7,7 +7,8 @@ locals {
     hab_pkgs_win_stable   = var.hab_pkgs_win_stable
     hab_pkgs_linux_unstable = var.hab_pkgs_linux_unstable
     hab_pkgs_win_unstable   = var.hab_pkgs_win_unstable
-
+    chef_ssl_path           = var.chef_ssl_path
+    chef_ssl_bundle_name    = var.chef_ssl_bundle_name
   })
   policy_ssl = templatefile("${path.module}/templates/builder_ssl_policy.rb", {
     builder_ip = var.ip
@@ -75,7 +76,7 @@ module "docker_host_prod" {
   hab_service_channel = "stable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
-  ssl_cert_file       = "/hab/cache/ssl/bundle.pem"
+  ssl_cert_file       = "${var.chef_ssl_path}/bundle.pem"
 }
 
 module "docker_host_dev" {
@@ -90,5 +91,5 @@ module "docker_host_dev" {
   hab_service_channel = "unstable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
-  ssl_cert_file       = "/hab/cache/ssl/bundle.pem"
+  ssl_cert_file       = "${var.chef_ssl_path}/${var.chef_ssl_bundle_name}"
 }

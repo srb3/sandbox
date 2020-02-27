@@ -67,3 +67,15 @@ variable "docker_host_user_private_key" {
   description = "path to an ssh private key to access the docker hosts"
   type        = string
 }
+
+variable "chef_ssl_path" {
+  description = "If using a builder with self signed certs, then a ca cert file will be created at this path that includes the self signed cert of the builder and the chef-clients ca bundle"
+  type        = string
+  default     = "/var/tmp/chef_ssl"
+}
+
+variable "chef_ssl_bundle_name" {
+  description = "If using a builder with self signed certs, then a ca cert file will be created at this path that includes the self signed cert of the builder and the chef-clients ca bundle"
+  type        = string
+  default     = "bundle.pem"
+}
