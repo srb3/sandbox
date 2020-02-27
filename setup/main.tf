@@ -99,14 +99,14 @@ module "chef_automate_base" {
 
 module "chef_automate" {
   source                = "srb3/chef-automate/linux"
-  version               = "0.0.16"
+  version               = "0.0.21"
   ips                   = module.chef_automate_base.server_public_ip
   instance_count        = var.server_count
   install_version       = var.chef_automate_version
   ssh_user_name         = var.user_name
   ssh_user_private_key  = var.user_private_key
   module_input          = jsonencode(module.chef_automate_base.vm_ids)
-  chef_automate_license = var.chef_automate_license
+  hostname_use_hostname = var.chef_automate_hostname_is_hostname
   channel               = var.chef_automate_channel
   products              = var.chef_automate_products
   data_collector_token  = var.data_collector_token

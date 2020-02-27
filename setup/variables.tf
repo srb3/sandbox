@@ -215,6 +215,12 @@ variable "chef_automate_products" {
   default = ["automate"]
 }
 
+variable "chef_automate_hostname_is_hostname" {
+  description = "Use the hostname of the instance as the chef automate hostname"
+  type        = bool
+  default     = false
+}
+
 variable "data_collector_token" {
   type    = string
   default = ""

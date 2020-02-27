@@ -59,6 +59,7 @@ chef_automate_hostname = "chef-automate-gb"
 chef_automate_version = "latest"
 chef_automate_channel = "dev"
 chef_automate_products = ["automate", "builder"]
+chef_automate_hostname_is_hostname = true
 data_collector_token = "<data_collector_token>"
 
 db_name = "<database_name>"
