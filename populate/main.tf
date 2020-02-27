@@ -67,7 +67,7 @@ locals {
 
 module "docker_host_prod" {
   source              = "srb3/habitat/chef"
-  version             = "0.0.14"
+  version             = "0.0.15"
   ips                 = [var.docker_host_prod_ip]
   instance_count      = 1
   user_name           = var.docker_host_user_name
