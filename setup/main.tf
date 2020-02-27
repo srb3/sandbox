@@ -135,7 +135,7 @@ module "workstation_base" {
   user_pass                     = var.workstation_user_password
   predefined_rules              = var.workstation_predefined_rules
   custom_rules                  = var.workstation_custom_rules
-  source_address_prefix         = var.workstation_source_address_prefix
+  source_address_prefix         = local.workstation_source_address_prefix
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.workstation_count
   instance_name                 = var.workstation_hostname
@@ -207,6 +207,15 @@ locals {
       destination_port_range = var.docker_port
       description            = "The docker deamon port"
       source_address_prefix  = data.azurerm_subnet.subnet1.address_prefix
+    },
+    {
+      name                   = "ssh_filtered"
+      priority               = "400"
+      direction              = "Inbound"
+      access                 = "Allow"
+      destination_port_range = "22"
+      description            = "The ssh port"
+      source_address_prefix  = local.workstation_source_address_prefix[0]
     }
   ]
 }

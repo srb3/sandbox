@@ -357,12 +357,7 @@ variable "workstation_user_password" {
 variable "docker_host_predefined_rules" {
   description = "The Predefined rules for this test server"
   type        = list
-  default     = [
-    {
-      name     = "SSH",
-      priority = "200"
-    }
-  ]
+  default     = []
 }
 
 variable "docker_port" {
