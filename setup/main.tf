@@ -30,12 +30,6 @@ module "vnet" {
   tags                = var.tags
 }
 
-data "azurerm_subnet" "this_subnet" {
-  name                 = var.subnet_names[0]
-  virtual_network_name = module.vnet.vnet_name
-  resource_group_name  = var.resource_group_name
-}
-
 locals {
   workstation_source_address_prefix = var.workstation_source_address_prefix != "" ? var.workstation_source_address_prefix : "*"
   ssh_custom_rules = [
