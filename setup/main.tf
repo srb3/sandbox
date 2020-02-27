@@ -106,7 +106,7 @@ module "chef_automate" {
   ssh_user_name        = var.user_name
   ssh_user_private_key = var.user_private_key
   module_input         = jsonencode(module.chef_automate_base.vm_ids)
-  hostname_method      = var.chef_automate_hotname_method
+  hostname_method      = var.chef_automate_hostname_method
   channel              = var.chef_automate_channel
   products             = var.chef_automate_products
   data_collector_token = var.data_collector_token
