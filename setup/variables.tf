@@ -55,17 +55,6 @@ variable "subnet_names" {
   default     = ["subnet1"]
 }
 
-variable "predefined_rules" {
-  description = "The Predefined rules for this test server"
-  type        = list
-  default     = [
-    {
-      name     = "SSH"
-      priority = "200"
-    }
-  ]
-}
-
 variable "custom_rules" {
   description = "The custom rules for this test server"
   type        = list
@@ -78,11 +67,7 @@ variable "source_address_prefix" {
   default     = []
 }
 
-variable "workstation_source_address_prefix" {
-  description = "The source address prefix to allow access to the workstation from"
-  type        = list
-  default     = []
-}
+
 
 variable "vm_size" {
   description = "The size of the vm to create"
@@ -237,19 +222,11 @@ variable "data_collector_token" {
 
 ############ workstation settings #######################
 
-variable "workstation_predefined_rules" {
-  description = "The Predefined rules for this test server"
-  type        = list
-  default     = [
-    {
-      name     = "WinRM",
-      priority = "200"
-    },
-    {
-      name     = "RDP",
-      priority = "201"
-    }
-  ]
+
+variable "workstation_source_address_prefix" {
+  description = "The source address prefix to allow access to the workstation from"
+  type        = string
+  default     = ""
 }
 
 variable "workstation_custom_rules" {
@@ -353,12 +330,6 @@ variable "workstation_user_password" {
 }
 
 ############ docker_host settings #######################
-
-variable "docker_host_predefined_rules" {
-  description = "The Predefined rules for this test server"
-  type        = list
-  default     = []
-}
 
 variable "docker_port" {
   description = "The custom rules for the docker hosts"

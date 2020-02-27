@@ -30,15 +30,14 @@ module "vnet" {
   tags                = var.tags
 }
 
-data "azurerm_subnet" "subnet1" {
+data "azurerm_subnet" "this_subnet" {
   name                 = var.subnet_names[0]
   virtual_network_name = module.vnet.vnet_name
   resource_group_name  = var.resource_group_name
 }
 
 locals {
-  source_address_prefix = length(var.source_address_prefix) > 0 ? var.source_address_prefix : [data.azurerm_subnet.subnet1.address_prefix]
-  workstation_source_address_prefix = length(var.workstation_source_address_prefix) > 0 ? var.workstation_source_address_prefix : ["*"]
+  workstation_source_address_prefix = var.workstation_source_address_prefix != "" ? var.workstation_source_address_prefix : "*"
   ssh_custom_rules = [
     {
       name                   = "ssh_filtered"
@@ -47,7 +46,27 @@ locals {
       access                 = "Allow"
       destination_port_range = "22"
       description            = "The ssh port"
-      source_address_prefix  = local.workstation_source_address_prefix[0]
+      source_address_prefix  = "*"
+    }
+  ]
+  win_custom_rules = [
+    {
+      name                   = "winrm_filtered"
+      priority               = "401"
+      direction              = "Inbound"
+      access                 = "Allow"
+      destination_port_range = "5986"
+      description            = "The winrm port"
+      source_address_prefix  = local.workstation_source_address_prefix
+    },
+    {
+      name                   = "rdp_filtered"
+      priority               = "402"
+      direction              = "Inbound"
+      access                 = "Allow"
+      destination_port_range = "3389"
+      description            = "The rdp port"
+      source_address_prefix  = local.workstation_source_address_prefix
     }
   ]
 }
@@ -61,9 +80,7 @@ module "chef_automate_base" {
   user_name                     = var.user_name
   user_private_key              = var.user_private_key
   user_public_key               = var.user_public_key
-  predefined_rules              = var.predefined_rules
   custom_rules                  = local.ssh_custom_rules
-  source_address_prefix         = local.source_address_prefix
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.server_count
   instance_name                 = var.chef_automate_hostname
@@ -133,9 +150,7 @@ module "workstation_base" {
   create_user                   = var.create_user
   user_name                     = var.workstation_user_name
   user_pass                     = var.workstation_user_password
-  predefined_rules              = var.workstation_predefined_rules
-  custom_rules                  = var.workstation_custom_rules
-  source_address_prefix         = local.workstation_source_address_prefix
+  custom_rules                  = local.win_custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.workstation_count
   instance_name                 = var.workstation_hostname
@@ -200,22 +215,13 @@ resource "azurerm_virtual_machine_extension" "provision" {
 locals {
   docker_host_custom_rules = [
     {
-      name                   = "docker"
-      priority               = "404"
-      direction              = "Inbound"
-      access                 = "Allow"
-      destination_port_range = var.docker_port
-      description            = "The docker deamon port"
-      source_address_prefix  = data.azurerm_subnet.subnet1.address_prefix
-    },
-    {
       name                   = "ssh_filtered"
       priority               = "400"
       direction              = "Inbound"
       access                 = "Allow"
       destination_port_range = "22"
       description            = "The ssh port"
-      source_address_prefix  = local.workstation_source_address_prefix[0]
+      source_address_prefix  = "*"
     }
   ]
 }
@@ -229,7 +235,6 @@ module "docker_host_base" {
   create_user                   = var.create_user
   user_private_key              = var.user_private_key
   user_public_key               = var.user_public_key
-  predefined_rules              = var.docker_host_predefined_rules
   custom_rules                  = local.docker_host_custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.docker_host_count

@@ -22,22 +22,9 @@ address_space = "<e.g. 10.0.0.0/16>"
 subnet_prefix = ["<e.g. 10.0.1.0/24>"]
 
 subnet_names = ["<subnet_name>"]
-workstation_source_address_prefix = ["76.54.23.10/32"]
+workstation_source_address_prefix = "76.54.23.10/32"
 # some predefined examples
-predefined_rules = [
-  {
-    name     = "SSH",
-    priority = "100"
-  },
-  {
-    name     = "HTTP"
-    priority = "300"
-  },
-  {
-    name     = "HTTPS"
-    priority = "400"
-  }
-]
+
 # full list of predefined ruls: https://github.com/Azure/terraform-azurerm-network-security-group/blob/master/rules.tf
 
 # example of defining a custom rule
