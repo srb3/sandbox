@@ -1,4 +1,6 @@
 builder_public_ip = ""
+builder_private_ip = ""
+builder_hostname = ""
 ssh_user = ""
 ssh_private_key = ""
 public_auth_token = ""
