@@ -20,5 +20,5 @@ file "#{ssl_dir}/#{x}.crt" do
 end
 
 execute 'bundle' do
-  command "cat $(dirname $(which chef-client))/../embedded/ssl/certs/cacert.pem #{ssl_dir}/#{x}.crt > #{ssl_dir}/#{ssl_bundle_name}"
+  command "cat $(dirname $(readlink -f $(which chef-client)))/../embedded/ssl/certs/cacert.pem #{ssl_dir}/#{x}.crt > #{ssl_dir}/#{ssl_bundle_name}"
 end
