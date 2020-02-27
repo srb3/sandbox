@@ -73,7 +73,7 @@ module "docker_host_prod" {
   user_name           = var.docker_host_user_name
   user_private_key    = var.docker_host_user_private_key
   hab_services        = local.service
-  bldr_url            = "https://${local.builder_hostname}/bldr/v1"
+  bldr_url            = "https://${var.builder_hostname}/bldr/v1"
   hab_service_channel = "stable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
@@ -88,7 +88,7 @@ module "docker_host_dev" {
   user_name           = var.docker_host_user_name
   user_private_key    = var.docker_host_user_private_key
   hab_services        = local.service
-  bldr_url            = "https://${local.builder_hostname}/bldr/v1"
+  bldr_url            = "https://${var.builder_hostname}/bldr/v1"
   hab_service_channel = "unstable"
   hab_sup_auto_update = true
   module_input        = null_resource.ssl_fetch.id
