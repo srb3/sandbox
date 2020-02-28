@@ -24,6 +24,9 @@ output "chef_automate_public_ips" {
   value = module.chef_automate_base.server_public_ip
 }
 
+output "chef_automate_pricate_ips" {
+  value = module.chef_automate_base.server_private_ip
+}
 ############ prod db output ############
 
 output "geoapp_db_connection_string_prod" {
