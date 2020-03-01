@@ -177,3 +177,14 @@ variable "workstation_user_password" {
   type        = string
   default     = "P@55w0rd1"
 }
+
+variable "workstation_nested_virt" {
+  description = "Set up this host as a nested virt host"
+  type        = bool
+  default     = false
+}
+
+variable "workstation_hab_pkg_export" {
+  description = "A habitat package to install and export as a socker container"
+  type        = string
+}

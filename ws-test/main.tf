@@ -6,21 +6,15 @@ provider "azurerm" {
   version = "= 1.44.0"
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.resource_group_location
-  tags     = var.tags
+data "azurerm_virtual_network" "vnet" {
+  name                = "acctvnet"
+  resource_group_name = var.resource_group_name
 }
 
-module "vnet" {
-  source              = "srb3/vnet/azurerm"
-  version             = "0.0.2"
-  resource_group_name = var.resource_group_name
-  location            = var.resource_group_location
-  address_space       = var.address_space
-  subnet_prefixes     = var.subnet_prefix
-  subnet_names        = var.subnet_names
-  tags                = var.tags
+data "azurerm_subnet" "vnet" {
+  name                 = data.azurerm_virtual_network.vnet.subnets[0]
+  virtual_network_name = "acctvnet"
+  resource_group_name  = var.resource_group_name
 }
 
 locals {
@@ -29,7 +23,7 @@ locals {
 
 module "workstation_base" {
   source                        = "srb3/workshop-server/azurerm"
-  version                       = "0.0.13"
+  version                       = "0.0.20"
   resource_group_name           = var.resource_group_name
   resource_group_location       = var.resource_group_location
   create_user                   = var.create_user
@@ -38,7 +32,7 @@ module "workstation_base" {
   predefined_rules              = var.workstation_predefined_rules
   custom_rules                  = var.workstation_custom_rules
   source_address_prefix         = var.workstation_source_address_prefix
-  vnet_subnet_id                = module.vnet.vnet_subnets[0]
+  vnet_subnet_id                = data.azurerm_subnet.vnet.id
   nb_instances                  = var.workstation_count
   instance_name                 = var.workstation_hostname
   vm_size                       = var.workstation_vm_size
@@ -59,6 +53,8 @@ module "workstation_base" {
   workstation_chef              = true
   populate_hosts                = true
   domain_name_label             = var.workstation_hostname
+  nested_virt                   = var.workstation_nested_virt
+  hab_pkg_export                = var.workstation_hab_pkg_export
   tags                          = var.tags
   system_type                   = "windows"
 }
