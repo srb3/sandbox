@@ -165,6 +165,8 @@ module "workstation_base" {
   workstation_chef              = true
   populate_hosts                = true
   domain_name_label             = var.workstation_hostname
+  nested_virt                   = var.workstation_nested_virt
+  hab_pkg_export                = var.workstation_hab_pkg_export
   tags                          = var.tags
   system_type                   = "windows"
 }
