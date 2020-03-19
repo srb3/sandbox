@@ -6,6 +6,12 @@ provider "azurerm" {
   version = "= 1.44.0"
 }
 
+resource "azurerm_resource_group" "wsrg" {
+  name     = "workstationrg"
+  location = "westeurope"
+  tags     = var.tags
+}
+
 data "azurerm_virtual_network" "vnet" {
   name                = "acctvnet"
   resource_group_name = var.resource_group_name
@@ -24,8 +30,8 @@ locals {
 module "workstation_base" {
   source                        = "srb3/workshop-server/azurerm"
   version                       = "0.0.20"
-  resource_group_name           = var.resource_group_name
-  resource_group_location       = var.resource_group_location
+  resource_group_name           = "workstationrg"
+  resource_group_location       = "westeurope"
   create_user                   = var.create_user
   user_name                     = var.workstation_user_name
   user_pass                     = var.workstation_user_password
