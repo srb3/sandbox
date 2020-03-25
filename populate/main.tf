@@ -30,7 +30,7 @@ resource "null_resource" "builder_populate" {
   depends_on = [local_file.builder_populate_policy_file]
 
   provisioner "local-exec" {
-    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.builder_public_ip} files/builder_populate --identity-file ${var.ssh_private_key_path} --chef-license accept"
+    command = "${var.chef_cmd} ssh://${var.ssh_user}@${var.builder_public_ip} files/builder_populate --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 
 }
@@ -51,15 +51,15 @@ resource "null_resource" "ssl_fetch" {
   depends_on = [local_file.builder_ssl_policy_file]
 
   provisioner "local-exec" {
-    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.docker_host_prod_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
+    command = "${var.chef_cmd} ssh://${var.ssh_user}@${var.docker_host_prod_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 
   provisioner "local-exec" {
-    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.docker_host_dev_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
+    command = "${var.chef_cmd} ssh://${var.ssh_user}@${var.docker_host_dev_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 
   provisioner "local-exec" {
-    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.azure_agent_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
+    command = "${var.chef_cmd} ssh://${var.ssh_user}@${var.azure_agent_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
 }
 

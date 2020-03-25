@@ -90,3 +90,9 @@ variable "chef_ssl_bundle_name" {
   type        = string
   default     = "bundle.pem"
 }
+
+variable "chef_cmd" {
+  description = "The chef run command to use"
+  type        = string
+  default     = "chef-run"
+}
