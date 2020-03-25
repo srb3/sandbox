@@ -57,6 +57,10 @@ resource "null_resource" "ssl_fetch" {
   provisioner "local-exec" {
     command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.docker_host_dev_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
   }
+
+  provisioner "local-exec" {
+    command = "/opt/chef-workstation/bin/chef-run ssh://${var.ssh_user}@${var.azure_agent_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
+  }
 }
 
 locals {

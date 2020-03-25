@@ -64,6 +64,11 @@ variable "docker_host_dev_ip" {
   type        = string
 }
 
+variable "azure_agent_ip" {
+  description = "The ip address of the azure agent instance"
+  type        = string
+}
+
 variable "docker_host_user_name" {
   description = "The user name used to ssh to the docker hosts"
   type        = string
