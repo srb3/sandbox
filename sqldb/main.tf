@@ -34,7 +34,28 @@ module "sql_database_prod" {
 }
 
 locals {
+  chef_automate_records = { for ip in module.chef_automate_base.server_public_ip : "${var.chef_automate_hostname}" => ip }
   workstation_source_address_prefix = var.workstation_source_address_prefix != "" ? var.workstation_source_address_prefix : "*"
+  automate_custom_rules = [
+    {
+      name                   = "ssh_filtered"
+      priority               = "404"
+      direction              = "Inbound"
+      access                 = "Allow"
+      destination_port_range = "22"
+      description            = "The ssh port"
+      source_address_prefix  = local.workstation_source_address_prefix
+    },
+    {
+      name                   = "htts_filtered"
+      priority               = "400"
+      direction              = "Inbound"
+      access                 = "Allow"
+      destination_port_range = "443"
+      description            = "The https port"
+      source_address_prefix  = "*"
+    }
+  ]
   ssh_custom_rules = [
     {
       name                   = "ssh_filtered"
@@ -77,6 +98,17 @@ locals {
   ]
 }
 
+module "chef_automate_dns_and_cert" {
+  source         = "/home/steveb/workspace/terraform/modules/srb3/terraform-dnsimple-record-cert"
+  records        = local.chef_automate_records
+  instance_count = var.server_count
+  contact        = lookup(var.tags, "contact")
+  domain_name    = var.dnsimple_domain_name
+  issuer_url     = var.issuer_url
+  oauth_token    = var.dnsimple_oauth_token
+  account        = var.dnsimple_account
+}
+
 module "azure_agent_base" {
   source                        = "/home/steveb/workspace/terraform/modules/srb3/terraform-azurerm-workshop-server"
   resource_group_name           = var.resource_group_name
@@ -116,7 +148,7 @@ module "chef_automate_base" {
   user_name                     = var.user_name
   user_private_key              = var.user_private_key
   user_public_key               = var.user_public_key
-  custom_rules                  = local.ssh_custom_rules
+  custom_rules                  = local.automate_custom_rules
   vnet_subnet_id                = module.vnet.vnet_subnets[0]
   nb_instances                  = var.server_count
   instance_name                 = var.chef_automate_hostname
@@ -138,9 +170,16 @@ module "chef_automate_base" {
   tags                          = var.tags
 }
 
+locals {
+  chain = [
+    for i in module.chef_automate_dns_and_cert.certificate_pem :
+      "${module.chef_automate_dns_and_cert.issuer_pem[index(module.chef_automate_dns_and_cert.certificate_pem,i)]}${module.chef_automate_dns_and_cert.certificate_pem[index(module.chef_automate_dns_and_cert.certificate_pem,i)]}"
+  ]
+}
+
 module "chef_automate" {
   source                = "srb3/chef-automate/linux"
-  version               = "0.0.23"
+  version               = "0.0.25"
   ips                   = module.chef_automate_base.server_public_ip
   instance_count        = var.server_count
   install_version       = var.chef_automate_version
@@ -153,6 +192,9 @@ module "chef_automate" {
   products              = var.chef_automate_products
   data_collector_token  = var.data_collector_token
   admin_password        = var.chef_automate_admin_password
+  fqdns                 = module.chef_automate_dns_and_cert.certificate_domain
+  certs                 = local.chain
+  cert_keys             = module.chef_automate_dns_and_cert.private_key_pem
 }
 
 module "workstation_base" {

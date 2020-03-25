@@ -539,3 +539,22 @@ variable "storage_container_name" {
   description = "The name of the storage container"
   type        = string
 }
+
+########## dns settings ########################
+
+variable "dnsimple_oauth_token" {
+  type = string
+}
+
+variable "dnsimple_account" {
+  type = string
+}
+
+variable "dnsimple_domain_name" {
+  type = string
+}
+
+variable "issuer_url" {
+  type    = string
+  default = "https://acme-staging-v02.api.letsencrypt.org/directory"
+}
