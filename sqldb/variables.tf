@@ -192,7 +192,15 @@ variable "workstation_nested_virt" {
 variable "workstation_hab_pkg_export" {
   description = "A habitat package to install and export as a socker container"
   type        = string
+  default     = ""
 }
+
+variable "workstation_hab_pkgs" {
+  description = "A list of habitat packages to install"
+  type        = list
+  default     = []
+}
+
 ############ docker_host settings #######################
 
 variable "docker_port" {
@@ -472,6 +480,23 @@ variable "timeout" {
   default     = "5m"
 }
 ########### Azure MSSQL settings ################
+
+variable "db_name_dev" {
+  description = "The name of the mssql instance"
+  type        = string
+  default     = "mydb"
+}
+
+variable "db_admin_username_dev" {
+  description = "The admin user name for the db instance"
+  type        = string
+  default     = "admin"
+}
+
+variable "db_admin_password_dev" {
+  description = "The admin password for the db instance"
+  type        = string
+}
 
 variable "db_name_prod" {
   description = "The name of the mssql instance"

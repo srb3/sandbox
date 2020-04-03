@@ -18,8 +18,20 @@ module "vnet" {
   subnet_prefixes                                       = var.subnet_prefix
   subnet_names                                          = var.subnet_names
   tags                                                  = var.tags
-  subnet_service_endpoints                              = ["Microsoft.Storage"]
+  subnet_service_endpoints                              = ["Microsoft.Storage","Microsoft.Sql"]
   subnet_enforce_private_link_endpoint_network_policies = var.subnet_enforce_private_link_endpoint_network_policies
+}
+
+module "sql_database_dev" {
+  source              = "/home/steveb/workspace/terraform/modules/srb3/terraform-azurerm-database"
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
+  db_name             = var.db_name_dev
+  sql_admin_username  = var.db_admin_username_dev
+  sql_password        = var.db_admin_password_dev
+  sql_firewall_rules  = var.db_access_ips
+  sql_vnet_rules      = [module.vnet.vnet_subnets[0]]
+  tags                = var.tags
 }
 
 module "sql_database_prod" {
@@ -30,6 +42,7 @@ module "sql_database_prod" {
   sql_admin_username  = var.db_admin_username_prod
   sql_password        = var.db_admin_password_prod
   sql_firewall_rules  = var.db_access_ips
+  sql_vnet_rules      = [module.vnet.vnet_subnets[0]]
   tags                = var.tags
 }
 
@@ -221,11 +234,12 @@ module "workstation_base" {
   os_disk_size_gb               = var.workstation_os_disk_size_gb
   install_workstation_tools     = true
   workstation_hab               = true
+  hab_pkgs                      = var.workstation_hab_pkgs
   workstation_chef              = true
   populate_hosts                = true
+  vagrant                       = true
+  docker                        = true
   domain_name_label             = var.workstation_hostname
-  nested_virt                   = var.workstation_nested_virt
-  hab_pkg_export                = var.workstation_hab_pkg_export
   tags                          = var.tags
   system_type                   = "windows"
 }
@@ -250,6 +264,7 @@ module "setup_workstations" {
   timeout                  = var.timeout
   system_type              = "windows"
 }
+
 locals {
   docker_host_custom_rules = [
     {
@@ -309,34 +324,4 @@ resource "azurerm_storage_container" "filestore" {
   name                  = var.storage_container_name
   storage_account_name  = azurerm_storage_account.filestore.name
   container_access_type = "blob"
-}
-
-#resource "azurerm_private_endpoint" "vnetstorage" {
-#  name                = "vnetstorage"
-#  location            = var.resource_group_location
-#  resource_group_name = var.resource_group_name
-#  subnet_id           = module.vnet.vnet_subnets[0]
-#
-#  private_service_connection {
-#    name                           = "storage-privateserviceconnection"
-#    private_connection_resource_id =  azurerm_storage_account.filestore.id
-#    subresource_names              = ["blob"]
-#    is_manual_connection           = false
-#  }
-#}
-
-output "storage_account" {
-  value = azurerm_storage_account.filestore.primary_blob_host
-}
-
-output "storage_account_connection_string_blob" {
-  value = azurerm_storage_account.filestore.primary_blob_connection_string
-}
-
-output "storage_account_connection_string" {
-  value = azurerm_storage_account.filestore.primary_connection_string
-}
-
-output "storage_account_primary_access_key" {
-  value = azurerm_storage_account.filestore.primary_access_key
 }

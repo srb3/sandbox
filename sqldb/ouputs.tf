@@ -1,3 +1,5 @@
+########### azure db prod output ################
+
 output "geoapp_db_connection_string_prod" {
   value = module.sql_database_prod.connection_string
 }
@@ -16,6 +18,28 @@ output "db_admin_username_prod" {
 
 output "db_admin_password_prod" {
   value = var.db_admin_password_prod
+}
+
+########### azure db dev output ################
+
+output "geoapp_db_connection_string_dev" {
+  value = module.sql_database_dev.connection_string
+}
+
+output "geoapp_db_database_name_dev" {
+  value = module.sql_database_dev.database_name
+}
+
+output "geoapp_db_sql_server_fqdn_dev" {
+  value = module.sql_database_dev.sql_server_fqdn
+}
+
+output "db_admin_username_dev" {
+  value = var.db_admin_username_dev
+}
+
+output "db_admin_password_dev" {
+  value = var.db_admin_password_dev
 }
 
 ########### chef automate output #################
@@ -76,4 +100,22 @@ output "azure_agent_private_ip" {
 
 output "azure_agent_hostname" {
   value = module.azure_agent_base.public_ip_fqdn
+}
+
+########### azure storage output ################
+
+output "storage_account" {
+  value = azurerm_storage_account.filestore.primary_blob_host
+}
+
+output "storage_account_connection_string_blob" {
+  value = azurerm_storage_account.filestore.primary_blob_connection_string
+}
+
+output "storage_account_connection_string" {
+  value = azurerm_storage_account.filestore.primary_connection_string
+}
+
+output "storage_account_primary_access_key" {
+  value = azurerm_storage_account.filestore.primary_access_key
 }
