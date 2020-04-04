@@ -40,8 +40,17 @@ template "#{node['builder_populate']['dir']}/on-prem-builder-master/download.sh"
   source 'download.sh.erb'
 end
 
+hostname = if node['builder_populate']['fqdn'] != ''
+             node['builder_populate']['fqdn']
+           else
+             node['fqdn']
+           end
+
 template "#{node['builder_populate']['dir']}/on-prem-builder-master/upload.sh" do
   source 'upload.sh.erb'
+  variables(
+    hostname: hostname
+  )
 end
 
 extend BuilderPopulate::SslHelpers

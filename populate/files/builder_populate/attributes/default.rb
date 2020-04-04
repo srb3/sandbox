@@ -19,3 +19,7 @@ default['builder_populate']['hab_packages_win_unstable'] = []
 
 default['builder_populate']['chef_ssl_path'] = '/var/tmp/chef_ssl'
 default['builder_populate']['chef_ssl_bundle_name'] = 'bundle.pem'
+
+# use this if you want to use a hostname different to the system hostname
+# for example if you have a dns name and certificate to use
+default['builder_populate']['fqdn'] = ''

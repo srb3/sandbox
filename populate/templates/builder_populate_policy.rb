@@ -13,3 +13,4 @@ default['builder_populate']['hab_packages_linux_stable'] = ${jsonencode(hab_pkgs
 default['builder_populate']['hab_packages_win_stable'] = ${jsonencode(hab_pkgs_win_stable)}
 default['builder_populate']['hab_packages_linux_unstable'] = ${jsonencode(hab_pkgs_linux_unstable)}
 default['builder_populate']['hab_packages_win_unstable'] = ${jsonencode(hab_pkgs_win_unstable)}
+default['builder_populate']['fqdn'] = '${builder_hostname}'
