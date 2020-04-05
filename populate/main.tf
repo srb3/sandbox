@@ -36,34 +36,6 @@ resource "null_resource" "builder_populate" {
 
 }
 
-resource "local_file" "builder_ssl_policy_file" {
-  depends_on = [null_resource.builder_populate]
-
-  content = local.policy_ssl
-  filename = "${path.module}/files/builder_populate/Policyfile.rb"
-}
-
-resource "null_resource" "ssl_fetch" {
-
-  triggers = {
-    policyfile = md5(local.policy_ssl)
-  }
-
-  depends_on = [local_file.builder_ssl_policy_file]
-
-  provisioner "local-exec" {
-    command = "${var.chef_cmd} ssh://${var.ssh_user}@${var.docker_host_prod_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
-  }
-
-  provisioner "local-exec" {
-    command = "${var.chef_cmd} ssh://${var.ssh_user}@${var.docker_host_dev_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
-  }
-
-  provisioner "local-exec" {
-    command = "${var.chef_cmd} ssh://${var.ssh_user}@${var.azure_agent_ip} files/builder_populate/recipes/ssl_self_signed.rb --identity-file ${var.ssh_private_key_path} --chef-license accept"
-  }
-}
-
 locals {
   service = {
     "srb3/chef_docker_wrapper" = {}
@@ -82,8 +54,6 @@ module "docker_host_prod" {
   hab_service_channel = "stable"
   hab_sup_auto_update = true
   hab_sup_listen_ctl  = "0.0.0.0:9632"
-  module_input        = null_resource.ssl_fetch.id
-  ssl_cert_file       = "${var.chef_ssl_path}/bundle.pem"
 }
 
 module "docker_host_dev" {
@@ -98,6 +68,4 @@ module "docker_host_dev" {
   hab_service_channel = "unstable"
   hab_sup_listen_ctl  = "0.0.0.0:9632"
   hab_sup_auto_update = true
-  module_input        = null_resource.ssl_fetch.id
-  ssl_cert_file       = "${var.chef_ssl_path}/${var.chef_ssl_bundle_name}"
 }
