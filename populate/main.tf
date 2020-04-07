@@ -37,8 +37,12 @@ resource "null_resource" "builder_populate" {
 }
 
 locals {
-  service = {
-    "srb3/chef_docker_wrapper" = {}
+  docker_services = {
+    "srb3/chef_docker_wrapper" = {},
+    "srb3/telegraf-docker/1.14.0" = {
+      "bind" = "backend:influxdb.monit",
+      "group" = "monit"
+    }
   }
 }
 
@@ -49,11 +53,12 @@ module "docker_host_prod" {
   instance_count      = 1
   user_name           = var.docker_host_user_name
   user_private_key    = var.docker_host_user_private_key
-  hab_services        = local.service
+  hab_services        = local.docker_services
   bldr_url            = "https://${var.builder_hostname}/bldr/v1"
   hab_service_channel = "stable"
   hab_sup_auto_update = true
   hab_sup_listen_ctl  = "0.0.0.0:9632"
+  hab_sup_peers       = [var.azure_agent_ip, var.docker_host_prod_ip, var.docker_host_dev_ip]
 }
 
 module "docker_host_dev" {
@@ -63,9 +68,47 @@ module "docker_host_dev" {
   instance_count      = 1
   user_name           = var.docker_host_user_name
   user_private_key    = var.docker_host_user_private_key
-  hab_services        = local.service
+  hab_services        = local.docker_services
   bldr_url            = "https://${var.builder_hostname}/bldr/v1"
   hab_service_channel = "unstable"
   hab_sup_listen_ctl  = "0.0.0.0:9632"
   hab_sup_auto_update = true
+  hab_sup_peers       = [var.azure_agent_ip, var.docker_host_prod_ip, var.docker_host_dev_ip]
+}
+
+locals {
+  agent_services = {
+    "smartb/influxdb" = {
+      "group" = "monit"
+    },
+    "srb3/showcase-grafana" = {
+      "group" = "monit",
+      "user_toml_config" = {
+        "portocol" = "http",
+        "datasource" = {
+          "name" = "influxdb",
+          "type" = "influxdb",
+          "password" = "password",
+          "url" = "http://localhost:8086"
+          "user"     = "admin",
+          "database" = "telegraf"
+        }
+      }
+    }
+  }
+}
+
+module "agent_monitoring" {
+  source              = "srb3/habitat/chef"
+  version             = "0.0.16"
+  ips                 = [var.azure_agent_ip]
+  instance_count      = 1
+  user_name           = var.docker_host_user_name
+  user_private_key    = var.docker_host_user_private_key
+  hab_services        = local.agent_services
+  bldr_url            = "https://${var.builder_hostname}/bldr/v1"
+  hab_service_channel = "stable"
+  hab_sup_auto_update = true
+  hab_sup_listen_ctl  = "0.0.0.0:9632"
+  hab_sup_peers       = [var.azure_agent_ip, var.docker_host_prod_ip, var.docker_host_dev_ip]
 }
