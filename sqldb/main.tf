@@ -1,5 +1,3 @@
-
-
 terraform {
   required_version = "> 0.12.0"
 }
@@ -150,6 +148,7 @@ module "azure_agent_base" {
   azure_agent_org               = var.azure_agent_org
   populate_hosts                = true
   domain_name_label             = var.azure_agent_hostname
+  private_ip_addresses          = var.azure_agent_private_ips
   tags                          = var.tags
 }
 
@@ -180,13 +179,14 @@ module "chef_automate_base" {
   install_workstation_tools     = true
   populate_hosts                = true
   domain_name_label             = var.chef_automate_hostname
+  private_ip_addresses          = var.chef_automate_private_ips
   tags                          = var.tags
 }
 
 locals {
   chain = [
     for i in module.chef_automate_dns_and_cert.certificate_pem :
-      "${module.chef_automate_dns_and_cert.issuer_pem[index(module.chef_automate_dns_and_cert.certificate_pem,i)]}${module.chef_automate_dns_and_cert.certificate_pem[index(module.chef_automate_dns_and_cert.certificate_pem,i)]}"
+      "${module.chef_automate_dns_and_cert.certificate_pem[index(module.chef_automate_dns_and_cert.certificate_pem,i)]}${module.chef_automate_dns_and_cert.issuer_pem[index(module.chef_automate_dns_and_cert.certificate_pem,i)]}"
   ]
 }
 
@@ -237,10 +237,10 @@ module "workstation_base" {
   hab_pkgs                      = var.workstation_hab_pkgs
   workstation_chef              = true
   populate_hosts                = true
-  vagrant                       = true
   docker                        = true
   domain_name_label             = var.workstation_hostname
   tags                          = var.tags
+  private_ip_addresses          = var.workstation_private_ips
   system_type                   = "windows"
 }
 
@@ -299,6 +299,7 @@ module "docker_host_base" {
   os_disk_size_gb               = var.docker_host_os_disk_size_gb
   populate_hosts                = true
   domain_name_label             = var.docker_host_hostname
+  private_ip_addresses          = var.docker_host_private_ips
   tags                          = var.tags
 }
 

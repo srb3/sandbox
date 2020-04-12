@@ -67,6 +67,12 @@ variable "data_collector_token" {
   default = ""
 }
 
+variable "chef_automate_private_ips" {
+  description = "A list of private ips to give the chef automate instances"
+  type        = list
+  default     = []
+}
+
 ############ workstation settings #######################
 
 variable "workstation_source_address" {
@@ -201,6 +207,12 @@ variable "workstation_hab_pkgs" {
   default     = []
 }
 
+variable "workstation_private_ips" {
+  description = "A list of private ips to give the chef automate instances"
+  type        = list
+  default     = []
+}
+
 ############ docker_host settings #######################
 
 variable "docker_port" {
@@ -264,6 +276,11 @@ variable "docker_host_hostname" {
   type        = string
 }
 
+variable "docker_host_private_ips" {
+  description = "A list of private ips to give the chef automate instances"
+  type        = list
+  default     = []
+}
 ########### azure agent base ####################
 
 variable "azure_agent_org" {
@@ -362,6 +379,11 @@ variable "azure_agent_data_disk" {
   default     = false
 }
 
+variable "azure_agent_private_ips" {
+  description = "A list of private ips to give the chef automate instances"
+  type        = list
+  default     = []
+}
 
 ########### CA base server settings #############
 
